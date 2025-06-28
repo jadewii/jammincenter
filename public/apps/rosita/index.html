@@ -1,0 +1,290 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rosita</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="synth-container">
+        
+        <div class="control-panel">
+            <div class="oscillator-section">
+                <div class="instrument-controls">
+                    <h3>Instrument</h3>
+                    <div class="instrument-buttons">
+                        <div class="instrument-container">
+                            <button id="instrument-synth" class="win95-button instrument-button active">1</button>
+                            <div class="octave-controls">
+                                <button class="win95-button octave-button" data-instrument="synth" data-direction="down">-</button>
+                                <button class="win95-button octave-button" data-instrument="synth" data-direction="up">+</button>
+                            </div>
+                        </div>
+                        <div class="instrument-container">
+                            <button id="instrument-bass" class="win95-button instrument-button">2</button>
+                            <div class="octave-controls">
+                                <button class="win95-button octave-button" data-instrument="bass" data-direction="down">-</button>
+                                <button class="win95-button octave-button" data-instrument="bass" data-direction="up">+</button>
+                            </div>
+                        </div>
+                        <div class="instrument-container">
+                            <button id="instrument-keys" class="win95-button instrument-button">3</button>
+                            <div class="octave-controls">
+                                <button class="win95-button octave-button" data-instrument="keys" data-direction="down">-</button>
+                                <button class="win95-button octave-button" data-instrument="keys" data-direction="up">+</button>
+                            </div>
+                        </div>
+                        <div class="instrument-container">
+                            <button id="instrument-drums" class="win95-button instrument-button">4</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Arpeggiator controls -->
+                <div class="arpeggiator-controls">
+                    <h3>Arpeggiator</h3>
+                    <div class="arp-buttons">
+                        <div class="arp-button-container">
+                            <button id="arp-synth" class="win95-button arp-button">1</button>
+                            <div class="led-container">
+                                <div class="led" data-instrument="synth" data-led="1"></div>
+                                <div class="led" data-instrument="synth" data-led="2"></div>
+                                <div class="led" data-instrument="synth" data-led="3"></div>
+                            </div>
+                        </div>
+                        <div class="arp-button-container">
+                            <button id="arp-bass" class="win95-button arp-button">2</button>
+                            <div class="led-container">
+                                <div class="led" data-instrument="bass" data-led="1"></div>
+                                <div class="led" data-instrument="bass" data-led="2"></div>
+                                <div class="led" data-instrument="bass" data-led="3"></div>
+                            </div>
+                        </div>
+                        <div class="arp-button-container">
+                            <button id="arp-keys" class="win95-button arp-button">3</button>
+                            <div class="led-container">
+                                <div class="led" data-instrument="keys" data-led="1"></div>
+                                <div class="led" data-instrument="keys" data-led="2"></div>
+                                <div class="led" data-instrument="keys" data-led="3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ADSR and Effects controls side by side -->
+                <div class="controls-row">
+                    <div class="adsr-controls">
+                        <h3>ADSR Envelope</h3>
+                        <div class="control-group">
+                            <label for="attack">A:</label>
+                            <input type="range" id="attack" min="0.01" max="2" step="0.01" value="0.1">
+                        </div>
+                        <div class="control-group">
+                            <label for="decay">D:</label>
+                            <input type="range" id="decay" min="0.01" max="2" step="0.01" value="0.2">
+                        </div>
+                        <div class="control-group">
+                            <label for="sustain">S:</label>
+                            <input type="range" id="sustain" min="0" max="1" step="0.01" value="0.5">
+                        </div>
+                        <div class="control-group">
+                            <label for="release">R:</label>
+                            <input type="range" id="release" min="0.01" max="5" step="0.01" value="0.5">
+                        </div>
+                    </div>
+                    
+                    <div class="effects-controls">
+                        <h3>Effects</h3>
+                        <div class="control-group">
+                            <label for="delay">D:</label>
+                            <input type="range" id="delay" min="0" max="1" step="0.01" value="0">
+                        </div>
+                        <div class="control-group">
+                            <label for="reverb">R:</label>
+                            <input type="range" id="reverb" min="0" max="1" step="0.01" value="0">
+                        </div>
+                        <div class="control-group">
+                            <label for="saturation">S:</label>
+                            <input type="range" id="saturation" min="0" max="2" step="0.01" value="0">
+                        </div>
+                        <div class="control-group">
+                            <label for="chorus">C:</label>
+                            <input type="range" id="chorus" min="0" max="1" step="0.01" value="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="random-buttons">
+                    <button id="random-adsr-button" class="win95-button">ADSR</button>
+                    <button id="random-scale-button" class="win95-button">Scale</button>
+                    <button id="random-octave-button" class="win95-button">Octave</button>
+                </div>
+            </div>
+
+            <div class="sequencer-section">
+                <h2></h2>
+                <div class="sequencer-controls">
+                    <div class="left-controls">
+                        <button id="play-button" class="win95-button">Play</button>
+                        <button id="stop-button" class="win95-button">Stop</button>
+                        <button id="random-button" class="win95-button">Random</button>
+                        <button id="clear-button" class="win95-button">Clear</button>
+                        <button id="clear-all-button" class="win95-button">Clear All</button>
+                        <button id="mixer-button" class="win95-button">Mixer</button>
+                    </div>
+                    <div class="bmp-control">
+                        <label for="tempo">BPM:</label>
+                        <input type="range" id="tempo" min="60" max="200" step="1" value="120">
+                    </div>
+                </div>
+                <div class="pattern-memory">
+                    <div class="pattern-buttons">
+                        <button class="win95-button pattern-button" data-pattern="1">1</button>
+                        <button class="win95-button pattern-button" data-pattern="2">2</button>
+                        <button class="win95-button pattern-button" data-pattern="3">3</button>
+                        <button class="win95-button pattern-button" data-pattern="4">4</button>
+                        <button class="win95-button pattern-button" data-pattern="5">5</button>
+                        <button class="win95-button pattern-button" data-pattern="6">6</button>
+                        <button class="win95-button pattern-button" data-pattern="7">7</button>
+                        <button class="win95-button pattern-button" data-pattern="8">8</button>
+                        <button id="duplicate-pattern-button" class="win95-button duplicate-button" title="Duplicate pattern to next slot">Dup</button>
+                    </div>
+                </div>
+                <div id="sequencer-grid" class="sequencer-grid"></div>
+                <div class="octave-controls sequencer-octave">
+                    <button class="win95-button octave-button" data-direction="down">-</button>
+                    <button class="win95-button octave-button" data-direction="up">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="keyboard-container" id="keyboard">
+            <!-- Keys will be generated by JS -->
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="help-modal">
+        <div class="help-content">
+            <div class="help-header">
+                🎵 Rosita Help & Instructions
+            </div>
+            <div id="helpText">
+                <div class="help-section">
+                    <h3>🎹 Multi-Track Keyboard</h3>
+                    <p><span class="help-keys">Q-W-E-R-T-Y-U-I-O-P-[-]-\</span> → Track 1 (Synth)</p>
+                    <p><span class="help-keys">A-S-D-F-G-H-J-K-L-;-'</span> → Track 2 (Bass)</p>
+                    <p><span class="help-keys">Z-X-C-V-B-N-M-,-.-/</span> → Track 3 (Keys)</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>🎛️ Instruments</h3>
+                    <p>Click instrument buttons (1-4) to switch tracks</p>
+                    <p>Click same instrument again to cycle through sounds</p>
+                    <p>Use +/- buttons to change octave for each instrument</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>🔊 Sound Design</h3>
+                    <p><strong>ADSR:</strong> Attack, Decay, Sustain, Release envelope</p>
+                    <p><strong>Effects:</strong> Delay, Reverb, Saturation, Chorus</p>
+                    <p>Settings are saved per instrument</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>🎵 Sequencer</h3>
+                    <p>Click grid squares to program beats</p>
+                    <p>Each instrument has its own sequence</p>
+                    <p>Use Play/Stop to control playback</p>
+                    <p>Random adds steps for current instrument only</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>💾 Patterns</h3>
+                    <p>8 pattern slots (buttons 1-8)</p>
+                    <p>Each pattern stores all 4 instrument sequences</p>
+                    <p>Click to switch between patterns</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>⚡ Pro Tips</h3>
+                    <p>• Each instrument cycles through 4 different sounds</p>
+                    <p>• ADSR and effects are saved per instrument</p>
+                    <p>• Use computer keyboard for multi-track jamming</p>
+                    <p>• Random button only affects current instrument</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('🎵 Rosita loading...');
+        
+        // Test Tauri API availability
+        if (window.__TAURI__) {
+            console.log('✅ Tauri API is available!');
+        } else {
+            console.log('❌ Tauri API not available');
+        }
+        
+        // Window control functions for iframe compatibility
+        window.closeApp = function() {
+            console.log('Close clicked in iframe');
+        }
+        
+        window.minimizeApp = function() {
+            console.log('Minimize clicked in iframe');
+        }
+        
+        window.maximizeApp = function() {
+            console.log('Maximize clicked in iframe');
+        }
+
+        window.showHelp = function() {
+            const modal = document.getElementById('helpModal');
+            const helpButton = document.querySelector('.help-button');
+            if (modal) {
+                modal.classList.add('show');
+                if (helpButton) {
+                    helpButton.textContent = '×';
+                    helpButton.onclick = hideHelp;
+                }
+            }
+        }
+
+        window.hideHelp = function() {
+            const modal = document.getElementById('helpModal');
+            const helpButton = document.querySelector('.help-button');
+            if (modal) {
+                modal.classList.remove('show');
+                if (helpButton) {
+                    helpButton.textContent = '?';
+                    helpButton.onclick = showHelp;
+                }
+            }
+        }
+
+        // Close help modal when clicking outside the content
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('helpModal');
+            const helpContent = document.querySelector('.help-content');
+            const helpButton = document.querySelector('.help-button');
+            
+            if (modal && modal.classList.contains('show') && 
+                !helpContent.contains(event.target) && 
+                !helpButton.contains(event.target)) {
+                hideHelp();
+            }
+        });
+
+        // Close help modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                hideHelp();
+            }
+        });
+    </script>
+    
+    <script src="script-enhanced.js"></script>
+</body>
+</html>

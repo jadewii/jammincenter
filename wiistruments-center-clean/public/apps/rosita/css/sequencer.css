@@ -1,0 +1,445 @@
+.sequencer-section {
+    margin-top: 1px;
+}
+
+.sequencer-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.sequencer-grid {
+    display: grid !important;
+    grid-template-columns: repeat(16, 1fr) !important;
+    grid-template-rows: repeat(8, 1fr) !important;
+    gap: 1px !important;
+    padding: 4px !important;
+    background: #90EE90 !important;
+    border: none !important;
+    height: 200px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-bottom: 0px !important;
+    min-height: 200px !important;
+    max-height: 500px !important;
+    flex: 1 !important;
+    flex-shrink: 0 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: hidden !important;
+}
+
+/* Purple background when in mixer mode */
+.sequencer-grid.mixer-mode {
+    background: #DDA0DD !important; /* Light purple background for mixer mode */
+    border: none !important; /* Remove border in mixer mode */
+    gap: 1px !important; /* Subtle gap like original sequencer */
+}
+
+/* Purple cell backgrounds in mixer mode - with grid lines like other tracks */
+.sequencer-grid.mixer-mode .grid-cell {
+    background-color: #DDA0DD !important; /* Purple cells in mixer mode */
+    border: 2px solid !important; /* Grid lines like other tracks */
+    border-color: #ffffff #808080 #808080 #ffffff !important; /* Same 3D border style as normal grid */
+}
+
+/* Grid background colors match instrument colors */
+.sequencer-grid.instrument-1-mode {
+    background: #FFB6C1 !important; /* Pink background for track 1 */
+}
+.sequencer-grid.instrument-1-mode .grid-cell {
+    background-color: #FFB6C1 !important; /* Pink cells for track 1 */
+}
+
+.sequencer-grid.instrument-2-mode {
+    background: #87CEEB !important; /* Blue background for track 2 */
+}
+.sequencer-grid.instrument-2-mode .grid-cell {
+    background-color: #87CEEB !important; /* Blue cells for track 2 */
+}
+
+.sequencer-grid.instrument-3-mode {
+    background: #DDA0DD !important; /* Purple background for track 3 */
+}
+.sequencer-grid.instrument-3-mode .grid-cell {
+    background-color: #DDA0DD !important; /* Purple cells for track 3 */
+}
+
+.sequencer-grid.instrument-4-mode {
+    background: #FFCC99 !important; /* Pretty peach orange for track 4 - Kit 1 default */
+}
+.sequencer-grid.instrument-4-mode .grid-cell {
+    background-color: #FFCC99 !important; /* Pretty peach orange for track 4 - Kit 1 default */
+}
+
+/* Kit-specific grid background colors for drums */
+.sequencer-grid.kit-1 {
+    background: #FFCC99 !important; /* Peach orange for Kit 1 */
+}
+.sequencer-grid.kit-1 .grid-cell {
+    background-color: #FFCC99 !important; /* Peach orange cells for Kit 1 */
+}
+
+.sequencer-grid.kit-2 {
+    background: #98FB98 !important; /* Green for Kit 2 */
+}
+.sequencer-grid.kit-2 .grid-cell {
+    background-color: #98FB98 !important; /* Green cells for Kit 2 */
+}
+
+.sequencer-grid.kit-3 {
+    background: #F0E68C !important; /* Yellow for Kit 3 */
+}
+.sequencer-grid.kit-3 .grid-cell {
+    background-color: #F0E68C !important; /* Yellow cells for Kit 3 */
+}
+
+.sequencer-grid.kit-4 {
+    background: #ADD8E6 !important; /* Light blue for Kit 4 */
+}
+.sequencer-grid.kit-4 .grid-cell {
+    background-color: #ADD8E6 !important; /* Light blue cells for Kit 4 */
+}
+
+@media (min-width: 768px) {
+    .sequencer-grid {
+        height: 220px !important;
+    }
+}
+
+
+.grid-cell {
+    background-color: #90EE90; 
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+}
+
+.grid-cell:hover {
+    background-color: #FFB6C1;
+    border-color: #FFE4E1 #FF69B4 #FF69B4 #FFE4E1;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.grid-cell.synth {
+    background-color: rgba(255, 105, 180, 0.3); 
+}
+
+.grid-cell.bass {
+    background-color: rgba(0, 191, 255, 0.3); 
+}
+
+.grid-cell.keys {
+    background-color: rgba(147, 112, 219, 0.3); 
+}
+
+/* Removed generic pink border - using specific colors below */
+
+.grid-cell.instrument-1.active {
+    background-color: #FF91A4 !important; /* Darker pink for active steps */
+    border-color: #FF1493 #FF1493 #FF1493 #FF1493 !important; /* Even darker pink border */
+}
+
+.grid-cell.instrument-2.active {
+    background-color: #6BB6D6 !important; /* Darker blue for active steps */
+    border-color: #4682B4 #4682B4 #4682B4 #4682B4 !important; /* Even darker blue border */
+}
+
+.grid-cell.instrument-3.active {
+    background-color: #C085C0 !important; /* Darker purple for active steps */
+    border-color: #9370DB #9370DB #9370DB #9370DB !important; /* Even darker purple border */
+}
+
+/* Drum row colors - each row gets its own color - HIGHEST SPECIFICITY to override beat markers */
+.grid-cell.instrument-4.active.beat-marker[data-track="0"],
+.grid-cell.instrument-4.active[data-track="0"] {
+    background-color: #FF8FA3 !important; /* Red - Kick */
+    border-color: #FF1493 #FF1493 #FF1493 #FF1493 !important;
+}
+
+.grid-cell.instrument-4.active.beat-marker[data-track="1"],
+.grid-cell.instrument-4.active[data-track="1"] {
+    background-color: #87CEEB !important; /* Blue - Snare */
+    border-color: #4682B4 #4682B4 #4682B4 #4682B4 !important;
+}
+
+.grid-cell.instrument-4.active.beat-marker[data-track="2"],
+.grid-cell.instrument-4.active[data-track="2"] {
+    background-color: #98FB98 !important; /* Green - Hi-hat */
+    border-color: #32CD32 #32CD32 #32CD32 #32CD32 !important;
+}
+
+.grid-cell.instrument-4.active.beat-marker[data-track="3"],
+.grid-cell.instrument-4.active[data-track="3"] {
+    background-color: #FFD6E0 !important; /* Light pink - Hat 2 */
+    border-color: #FF69B4 #FF69B4 #FF69B4 #FF69B4 !important;
+}
+
+.grid-cell.instrument-4.active.beat-marker[data-track="4"],
+.grid-cell.instrument-4.active[data-track="4"] {
+    background-color: #DDA0DD !important; /* Purple - Perc 1 */
+    border-color: #9370DB #9370DB #9370DB #9370DB !important;
+}
+
+.grid-cell.instrument-4.active.beat-marker[data-track="5"],
+.grid-cell.instrument-4.active[data-track="5"] {
+    background-color: #AFEEEE !important; /* Teal - Perc 2 */
+    border-color: #48D1CC #48D1CC #48D1CC #48D1CC !important;
+}
+
+.grid-cell.instrument-4.active.beat-marker[data-track="6"],
+.grid-cell.instrument-4.active[data-track="6"] {
+    background-color: #F0E68C !important; /* Yellow - Perc 3 */
+    border-color: #DAA520 #DAA520 #DAA520 #DAA520 !important;
+}
+
+.grid-cell.instrument-4.active.beat-marker[data-track="7"],
+.grid-cell.instrument-4.active[data-track="7"] {
+    background-color: #FFCC99 !important; /* Peach - Perc 4 */
+    border-color: #FF8C00 #FF8C00 #FF8C00 #FF8C00 !important;
+}
+
+/* Remove all outlines and box-shadows from grid cells */
+.grid-cell,
+.grid-cell:hover,
+.grid-cell:focus,
+.grid-cell:active,
+.grid-cell.active,
+.grid-cell.playing,
+.grid-cell.beat-marker {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+
+.grid-cell.active.synth {
+    background-color: #FF69B4; 
+}
+
+.grid-cell.active.bass {
+    background-color: #00BFFF; 
+}
+
+.grid-cell.active.keys {
+    background-color: #9370DB;
+}
+
+.grid-cell.playing {
+    background-color: #32CD32; 
+    border-color: #00FF00 #006400 #006400 #00FF00;
+}
+
+.grid-cell.active.playing {
+    background-color: #228B22; 
+}
+
+
+
+
+
+
+
+
+
+.beat-marker {
+    background-color: #A0E7A0;
+}
+
+/* Beat markers for drums - highest specificity to override all other colors */
+.sequencer-grid.kit-1 .grid-cell.beat-marker.instrument-4,
+.sequencer-grid.kit-1 .grid-cell.instrument-4.beat-marker,
+.sequencer-grid.kit-1 .grid-cell.beat-marker {
+    background-color: #FFE0CC !important; /* Lighter peach for Kit 1 beat markers */
+}
+
+.sequencer-grid.kit-2 .grid-cell.beat-marker.instrument-4,
+.sequencer-grid.kit-2 .grid-cell.instrument-4.beat-marker,
+.sequencer-grid.kit-2 .grid-cell.beat-marker {
+    background-color: #B8FFB8 !important; /* Lighter green for Kit 2 beat markers */
+}
+
+.sequencer-grid.kit-3 .grid-cell.beat-marker.instrument-4,
+.sequencer-grid.kit-3 .grid-cell.instrument-4.beat-marker,
+.sequencer-grid.kit-3 .grid-cell.beat-marker {
+    background-color: #FFF4A3 !important; /* Lighter yellow for Kit 3 beat markers */
+}
+
+.sequencer-grid.kit-4 .grid-cell.beat-marker.instrument-4,
+.sequencer-grid.kit-4 .grid-cell.instrument-4.beat-marker,
+.sequencer-grid.kit-4 .grid-cell.beat-marker {
+    background-color: #C6E2FF !important; /* Lighter blue for Kit 4 beat markers */
+}
+
+
+.mixer-grid {
+    display: grid;
+    grid-template-columns: 80px repeat(8, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    gap: 3px;
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+    background-color: #7CCD7C; 
+    padding: 5px;
+    height: 250px;
+    margin-bottom: 5px;
+}
+
+@media (min-width: 768px) {
+    .mixer-grid {
+        height: 300px;
+    }
+}
+
+.mixer-grid-vertical {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    position: relative;
+}
+
+.mixer-label-row, .mixer-step-row {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    margin-bottom: 3px;
+}
+
+.mixer-corner-cell {
+    width: 60px;
+    min-width: 60px;
+    background-color: #7CCD7C;
+    margin-right: 3px;
+    border-radius: 4px;
+}
+
+.mixer-level-label {
+    width: 60px;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FF69B4;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    border: 2px solid;
+    border-color: #FFB6C1 #FF1493 #FF1493 #FFB6C1;
+    border-radius: 4px;
+    margin-right: 3px;
+}
+
+.mixer-column-label {
+    flex: 1;
+    min-height: unset;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    word-break: break-word;
+    padding: 5px 2px;
+    font-size: 11px;
+}
+
+.mixer-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FF69B4; 
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    border: 2px solid;
+    border-color: #FFB6C1 #FF1493 #FF1493 #FFB6C1; 
+    border-radius: 4px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    padding: 2px;
+    word-break: break-word;
+    text-align: center;
+}
+
+.mixer-cell {
+    flex: 1;
+    min-height: unset;
+    border-radius: 4px;
+    height: auto;
+    position: relative;
+    transition: background-color 0.1s ease;
+}
+
+.mixer-cell:hover {
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.7);
+}
+
+.mixer-cell.active {
+    background-color: #FF69B4; 
+    border-color: #FFB6C1 #FF1493 #FF1493 #FFB6C1; 
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.mixer-cell[data-instrument="synth"].active {
+    background-color: #FF69B4;
+}
+
+.mixer-cell[data-instrument="bass"].active {
+    background-color: #00BFFF;
+}
+
+.mixer-cell[data-instrument="keys"].active {
+    background-color: #9370DB;
+}
+
+
+.mixer-cell[data-step="0"] {
+    background-color: #f8f8f8;
+}
+
+.mixer-cell[data-step="1"] {
+    background-color: #f0f0f0;
+}
+
+.mixer-cell[data-step="2"] {
+    background-color: #e8e8e8;
+}
+
+.mixer-cell[data-step="3"] {
+    background-color: #e0e0e0;
+}
+
+.mixer-cell[data-step="4"] {
+    background-color: #d0d0d0;
+}
+
+.mixer-cell[data-step="5"] {
+    background-color: #c0c0c0;
+}
+
+.mixer-cell[data-step="6"] {
+    background-color: #b0b0b0;
+}
+
+.mixer-cell[data-step="7"] {
+    background-color: #a0a0a0;
+}
+
+
+/* Mixer mode overlay styles for existing 8x16 grid */
+.grid-cell.muted {
+    background-color: #DC143C !important;
+    border-color: #FFB6C1 #B22222 #B22222 #FFB6C1 !important;
+}
+
+.grid-cell.soloed {
+    background-color: #FFD700 !important;
+    border-color: #FFFF99 #FFA500 #FFA500 #FFFF99 !important;
+}
+
+.grid-cell.effects-on {
+    background-color: #00CED1 !important;
+    border-color: #AFEEEE #008B8B #008B8B #AFEEEE !important;
+}

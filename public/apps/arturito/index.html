@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arturito - Test Window</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(145deg, #00bfff, #0099cc);
+            color: white;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .title-bar {
+            background: rgba(0,0,0,0.2);
+            padding: 10px 20px;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        .emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+        p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="title-bar">
+        Arturito - Advanced Music Production Suite
+    </div>
+    
+    <div class="content">
+        <div class="emoji">🎹</div>
+        <h1>Welcome to Arturito!</h1>
+        <p>This is a test window for the dynamic app launching system. In a real implementation, this would contain the full Arturito interface with AI composition tools and vintage synthesizer emulation.</p>
+        <p>Each app opens in its own independent window!</p>
+    </div>
+</body>
+</html>

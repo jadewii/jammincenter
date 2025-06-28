@@ -1,0 +1,528 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rosita</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // Wait for Tauri to be ready
+        window.addEventListener('DOMContentLoaded', () => {
+            // Define window control functions using Tauri v1 API
+            window.closeApp = async function() {
+                console.log('Close button clicked');
+                try {
+                    // Try different methods to access Tauri API
+                    if (window.__TAURI_INVOKE__) {
+                        console.log('Using __TAURI_INVOKE__');
+                        await window.__TAURI_INVOKE__('tauri', {
+                            __tauriModule: 'Window',
+                            message: {
+                                cmd: 'manage',
+                                data: {
+                                    cmd: {
+                                        type: 'close'
+                                    }
+                                }
+                            }
+                        });
+                    } else if (window.__TAURI__?.tauri?.invoke) {
+                        console.log('Using __TAURI__.tauri.invoke');
+                        await window.__TAURI__.tauri.invoke('plugin:window|close');
+                    } else {
+                        console.error('No Tauri API found');
+                        alert('Cannot find Tauri API to close window');
+                    }
+                } catch (error) {
+                    console.error('Error closing:', error);
+                    alert('Error closing app: ' + error.message);
+                }
+            }
+
+            window.minimizeApp = async function() {
+                console.log('Minimize button clicked');
+                try {
+                    if (window.__TAURI_INVOKE__) {
+                        console.log('Using __TAURI_INVOKE__ for minimize');
+                        // Try the exact same pattern as close, which we know works
+                        const result = await window.__TAURI_INVOKE__('tauri', {
+                            __tauriModule: 'Window',
+                            message: {
+                                cmd: 'manage',
+                                data: {
+                                    cmd: {
+                                        type: 'minimize'
+                                    }
+                                }
+                            }
+                        });
+                        console.log('Minimize result:', result);
+                    } else {
+                        console.error('No __TAURI_INVOKE__ found');
+                        alert('Cannot find Tauri API to minimize window');
+                    }
+                } catch (error) {
+                    console.error('Error minimizing:', error);
+                    alert('Error minimizing app: ' + error.message);
+                }
+            }
+            
+            window.maximizeApp = async function() {
+                console.log('Maximize button clicked');
+                try {
+                    if (window.__TAURI_INVOKE__) {
+                        // Keep track of maximized state locally
+                        if (!window.isMaximized) {
+                            window.isMaximized = false;
+                        }
+                        
+                        const action = window.isMaximized ? 'unmaximize' : 'maximize';
+                        console.log('Attempting to:', action);
+                        
+                        await window.__TAURI_INVOKE__('tauri', {
+                            __tauriModule: 'Window',
+                            message: {
+                                cmd: 'manage',
+                                data: {
+                                    cmd: {
+                                        type: action
+                                    }
+                                }
+                            }
+                        });
+                        
+                        // Toggle the local state
+                        window.isMaximized = !window.isMaximized;
+                        document.body.classList.toggle('maximized', window.isMaximized);
+                        
+                        // Calculate scale for fullscreen
+                        if (window.isMaximized) {
+                            setTimeout(() => {
+                                const container = document.querySelector('.synth-container');
+                                if (container) {
+                                    const scaleY = window.innerHeight / 650;
+                                    const scale = scaleY * 1.5; // Make it 50% bigger than just filling height
+                                    console.log('Scaling to:', scale, 'Window height:', window.innerHeight);
+                                    container.style.transform = `scale(${scale})`;
+                                    container.classList.add('fullscreen-scale');
+                                }
+                            }, 100);
+                        } else {
+                            const container = document.querySelector('.synth-container');
+                            if (container) {
+                                container.style.transform = 'scale(1)';
+                                container.classList.remove('fullscreen-scale');
+                            }
+                        }
+                        
+                        console.log('Window is now maximized:', window.isMaximized);
+                    } else {
+                        console.error('No __TAURI_INVOKE__ found');
+                        alert('Cannot find Tauri API to maximize window');
+                    }
+                } catch (error) {
+                    console.error('Error with maximize/unmaximize:', error);
+                    // Don't show alert for undefined errors
+                    const errorMsg = error.message || String(error);
+                    if (errorMsg !== 'undefined' && !errorMsg.includes('undefined')) {
+                        alert('Error toggling maximize: ' + errorMsg);
+                    }
+                    // Still toggle the state even if there was an error
+                    window.isMaximized = !window.isMaximized;
+                    document.body.classList.toggle('maximized', window.isMaximized);
+                    
+                    // Apply scaling even in error case
+                    if (window.isMaximized) {
+                        setTimeout(() => {
+                            const container = document.querySelector('.synth-container');
+                            if (container) {
+                                const scaleY = window.innerHeight / 650;
+                                const scale = scaleY * 1.5;
+                                console.log('Error case scaling to:', scale);
+                                container.style.transform = `scale(${scale})`;
+                                container.classList.add('fullscreen-scale');
+                            }
+                        }, 100);
+                    } else {
+                        const container = document.querySelector('.synth-container');
+                        if (container) {
+                            container.style.transform = 'scale(1)';
+                            container.classList.remove('fullscreen-scale');
+                        }
+                    }
+                }
+            }
+        });
+
+        window.showHelp = function() {
+            const modal = document.getElementById('helpModal');
+            const helpButton = document.querySelector('.help-button');
+            if (modal) {
+                modal.classList.add('show');
+                if (helpButton) {
+                    helpButton.textContent = '×';
+                    helpButton.onclick = hideHelp;
+                }
+            }
+        }
+
+        window.hideHelp = function() {
+            const modal = document.getElementById('helpModal');
+            const helpButton = document.querySelector('.help-button');
+            if (modal) {
+                modal.classList.remove('show');
+                if (helpButton) {
+                    helpButton.textContent = '?';
+                    helpButton.onclick = showHelp;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="synth-container">
+        <div class="help-button" onclick="showHelp()" style="position: absolute; top: 10px; right: 10px; z-index: 100;">?</div>
+        
+        <div class="control-panel">
+            <div class="oscillator-section">
+                <div class="instrument-controls">
+                    <h3>Instrument</h3>
+                    <div class="instrument-buttons">
+                        <div class="instrument-container">
+                            <button id="instrument-synth" class="win95-button instrument-button active">1</button>
+                            <div class="octave-controls">
+                                <button class="win95-button octave-button" data-instrument="synth" data-direction="down">-</button>
+                                <button class="win95-button octave-button" data-instrument="synth" data-direction="up">+</button>
+                            </div>
+                        </div>
+                        <div class="instrument-container">
+                            <button id="instrument-bass" class="win95-button instrument-button">2</button>
+                            <div class="octave-controls">
+                                <button class="win95-button octave-button" data-instrument="bass" data-direction="down">-</button>
+                                <button class="win95-button octave-button" data-instrument="bass" data-direction="up">+</button>
+                            </div>
+                        </div>
+                        <div class="instrument-container">
+                            <button id="instrument-keys" class="win95-button instrument-button">3</button>
+                            <div class="octave-controls">
+                                <button class="win95-button octave-button" data-instrument="keys" data-direction="down">-</button>
+                                <button class="win95-button octave-button" data-instrument="keys" data-direction="up">+</button>
+                            </div>
+                        </div>
+                        <div class="instrument-container">
+                            <button id="instrument-drums" class="win95-button instrument-button">4</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Arpeggiator controls -->
+                <div class="arpeggiator-controls">
+                    <h3>Arpeggiator</h3>
+                    <div class="arp-buttons">
+                        <div class="arp-button-container">
+                            <button id="arp-synth" class="win95-button arp-button">1</button>
+                            <div class="led-container">
+                                <div class="led" data-instrument="synth" data-led="1"></div>
+                                <div class="led" data-instrument="synth" data-led="2"></div>
+                                <div class="led" data-instrument="synth" data-led="3"></div>
+                            </div>
+                        </div>
+                        <div class="arp-button-container">
+                            <button id="arp-bass" class="win95-button arp-button">2</button>
+                            <div class="led-container">
+                                <div class="led" data-instrument="bass" data-led="1"></div>
+                                <div class="led" data-instrument="bass" data-led="2"></div>
+                                <div class="led" data-instrument="bass" data-led="3"></div>
+                            </div>
+                        </div>
+                        <div class="arp-button-container">
+                            <button id="arp-keys" class="win95-button arp-button">3</button>
+                            <div class="led-container">
+                                <div class="led" data-instrument="keys" data-led="1"></div>
+                                <div class="led" data-instrument="keys" data-led="2"></div>
+                                <div class="led" data-instrument="keys" data-led="3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ADSR and Effects controls side by side -->
+                <div class="controls-row">
+                    <div class="adsr-controls">
+                        <h3>ADSR Envelope</h3>
+                        <div class="control-group">
+                            <label for="attack">A:</label>
+                            <input type="range" id="attack" min="0.01" max="2" step="0.01" value="0.1">
+                        </div>
+                        <div class="control-group">
+                            <label for="decay">D:</label>
+                            <input type="range" id="decay" min="0.01" max="2" step="0.01" value="0.2">
+                        </div>
+                        <div class="control-group">
+                            <label for="sustain">S:</label>
+                            <input type="range" id="sustain" min="0" max="1" step="0.01" value="0.5">
+                        </div>
+                        <div class="control-group">
+                            <label for="release">R:</label>
+                            <input type="range" id="release" min="0.01" max="5" step="0.01" value="0.5">
+                        </div>
+                    </div>
+                    
+                    <div class="effects-controls">
+                        <h3>Effects</h3>
+                        <div class="control-group">
+                            <label for="delay">D:</label>
+                            <input type="range" id="delay" min="0" max="1" step="0.01" value="0">
+                        </div>
+                        <div class="control-group">
+                            <label for="reverb">R:</label>
+                            <input type="range" id="reverb" min="0" max="1" step="0.01" value="0">
+                        </div>
+                        <div class="control-group">
+                            <label for="saturation">S:</label>
+                            <input type="range" id="saturation" min="0" max="2" step="0.01" value="0">
+                        </div>
+                        <div class="control-group">
+                            <label for="chorus">C:</label>
+                            <input type="range" id="chorus" min="0" max="1" step="0.01" value="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="random-buttons">
+                    <button id="random-adsr-button" class="win95-button">ADSR</button>
+                    <button id="random-scale-button" class="win95-button">Scale</button>
+                    <button id="random-octave-button" class="win95-button">Octave</button>
+                </div>
+            </div>
+
+            <div class="sequencer-section">
+                <h2></h2>
+                <div class="sequencer-controls">
+                    <div class="left-controls">
+                        <button id="play-button" class="win95-button">Play</button>
+                        <button id="stop-button" class="win95-button">Stop</button>
+                        <button id="random-button" class="win95-button">Random</button>
+                        <button id="clear-button" class="win95-button">Clear</button>
+                        <button id="clear-all-button" class="win95-button">Clear All</button>
+                        <button id="mixer-button" class="win95-button">Mixer</button>
+                    </div>
+                    <div class="bmp-control">
+                        <label for="tempo">BPM:</label>
+                        <input type="range" id="tempo" min="60" max="200" step="1" value="120">
+                    </div>
+                </div>
+                <div class="pattern-memory">
+                    <div class="pattern-buttons">
+                        <button class="win95-button pattern-button" data-pattern="1">1</button>
+                        <button class="win95-button pattern-button" data-pattern="2">2</button>
+                        <button class="win95-button pattern-button" data-pattern="3">3</button>
+                        <button class="win95-button pattern-button" data-pattern="4">4</button>
+                        <button class="win95-button pattern-button" data-pattern="5">5</button>
+                        <button class="win95-button pattern-button" data-pattern="6">6</button>
+                        <button class="win95-button pattern-button" data-pattern="7">7</button>
+                        <button class="win95-button pattern-button" data-pattern="8">8</button>
+                        <button id="duplicate-pattern-button" class="win95-button duplicate-button" title="Duplicate pattern to next slot">Dup</button>
+                    </div>
+                </div>
+                <div id="sequencer-grid" class="sequencer-grid"></div>
+                <div class="octave-controls sequencer-octave">
+                    <button class="win95-button octave-button" data-direction="down">-</button>
+                    <button class="win95-button octave-button" data-direction="up">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="keyboard-container" id="keyboard">
+            <!-- Keys will be generated by JS -->
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="help-modal">
+        <div class="help-content">
+            <div class="help-header">
+                🎵 Rosita Help & Instructions
+            </div>
+            <div id="helpText">
+                <div class="help-section">
+                    <h3>🎹 Multi-Track Keyboard</h3>
+                    <p><span class="help-keys">Q-W-E-R-T-Y-U-I-O-P-[-]-\</span> → Track 1 (Synth)</p>
+                    <p><span class="help-keys">A-S-D-F-G-H-J-K-L-;-'</span> → Track 2 (Bass)</p>
+                    <p><span class="help-keys">Z-X-C-V-B-N-M-,-.-/</span> → Track 3 (Keys)</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>🎛️ Instruments</h3>
+                    <p>Click instrument buttons (1-4) to switch tracks</p>
+                    <p>Click same instrument again to cycle through sounds</p>
+                    <p>Use +/- buttons to change octave for each instrument</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>🔊 Sound Design</h3>
+                    <p><strong>ADSR:</strong> Attack, Decay, Sustain, Release envelope</p>
+                    <p><strong>Effects:</strong> Delay, Reverb, Saturation, Chorus</p>
+                    <p>Settings are saved per instrument</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>🎵 Sequencer</h3>
+                    <p>Click grid squares to program beats</p>
+                    <p>Each instrument has its own sequence</p>
+                    <p>Use Play/Stop to control playback</p>
+                    <p>Random adds steps for current instrument only</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>💾 Patterns</h3>
+                    <p>8 pattern slots (buttons 1-8)</p>
+                    <p>Each pattern stores all 4 instrument sequences</p>
+                    <p>Click to switch between patterns</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>⚡ Pro Tips</h3>
+                    <p>• Each instrument cycles through 4 different sounds</p>
+                    <p>• ADSR and effects are saved per instrument</p>
+                    <p>• Use computer keyboard for multi-track jamming</p>
+                    <p>• Random button only affects current instrument</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('🎵 Rosita loading...');
+        
+        // Test Tauri API availability
+        if (window.__TAURI__) {
+            console.log('✅ Tauri API is available!');
+        } else {
+            console.error('❌ Tauri API not available');
+        }
+        
+        // Functions already defined above
+
+        // Help functions already defined above
+
+        // Close help modal when clicking outside the content
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('helpModal');
+            const helpContent = document.querySelector('.help-content');
+            const helpButton = document.querySelector('.help-button');
+            
+            if (modal && modal.classList.contains('show') && 
+                !helpContent.contains(event.target) && 
+                !helpButton.contains(event.target)) {
+                hideHelp();
+            }
+        });
+
+        // Close help modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                hideHelp();
+            }
+        });
+    </script>
+    
+    <script>
+        // Beautiful Rosita UI creation for iframe
+        console.log('🎵 Creating beautiful Rosita UI for iframe...');
+        window.addEventListener('load', () => {
+            const grid = document.getElementById('sequencer-grid');
+            const keyboard = document.getElementById('keyboard');
+            
+            if (grid) {
+                console.log('🎵 Creating beautiful sequencer grid...');
+                grid.style.display = 'grid';
+                grid.style.gridTemplateColumns = 'repeat(16, 1fr)';
+                grid.style.gridTemplateRows = 'repeat(8, 1fr)';
+                grid.style.gap = '2px';
+                grid.style.height = '200px';
+                grid.style.background = '#ff8c99';
+                grid.style.padding = '8px';
+                grid.style.borderRadius = '8px';
+                grid.style.border = '2px solid #d1477a';
+                
+                // Create 8 rows x 16 columns = 128 cells
+                for (let row = 0; row < 8; row++) {
+                    for (let col = 0; col < 16; col++) {
+                        const cell = document.createElement('div');
+                        cell.style.background = 'white';
+                        cell.style.border = '1px solid #666';
+                        cell.style.borderRadius = '3px';
+                        cell.style.cursor = 'pointer';
+                        cell.style.transition = 'all 0.1s ease';
+                        
+                        // Add some demo colors for visual appeal
+                        if (Math.random() > 0.85) {
+                            if (row < 2) cell.style.background = '#ff6b4a'; // Orange for kick/snare
+                            else if (row < 4) cell.style.background = '#4a9eff'; // Blue for hi-hat
+                            else if (row < 6) cell.style.background = '#4aff6b'; // Green for percussion
+                            else cell.style.background = '#a64aff'; // Purple for misc
+                            cell.style.boxShadow = 'inset 0 0 10px rgba(0,0,0,0.3)';
+                        }
+                        
+                        cell.addEventListener('mouseenter', () => {
+                            if (cell.style.background === 'white') {
+                                cell.style.background = '#f0f0f0';
+                            }
+                        });
+                        
+                        cell.addEventListener('mouseleave', () => {
+                            if (cell.style.background === 'rgb(240, 240, 240)') {
+                                cell.style.background = 'white';
+                            }
+                        });
+                        
+                        grid.appendChild(cell);
+                    }
+                }
+                console.log('✅ Created beautiful grid with', grid.children.length, 'cells');
+            }
+            
+            if (keyboard) {
+                console.log('🎹 Creating beautiful keyboard...');
+                keyboard.style.display = 'flex';
+                keyboard.style.height = '160px';
+                keyboard.style.gap = '2px';
+                keyboard.style.padding = '8px';
+                keyboard.style.background = '#f0f0f0';
+                keyboard.style.borderRadius = '8px';
+                keyboard.style.border = '2px solid #ccc';
+                
+                for (let i = 0; i < 25; i++) {
+                    const key = document.createElement('div');
+                    key.style.flex = '1';
+                    key.style.background = 'white';
+                    key.style.border = '2px solid black';
+                    key.style.height = '100%';
+                    key.style.borderRadius = '0 0 8px 8px';
+                    key.style.cursor = 'pointer';
+                    key.style.transition = 'all 0.1s ease';
+                    
+                    key.addEventListener('mousedown', () => {
+                        key.style.background = '#ff69b4';
+                        key.style.transform = 'scale(0.95)';
+                    });
+                    
+                    key.addEventListener('mouseup', () => {
+                        key.style.background = 'white';
+                        key.style.transform = 'scale(1)';
+                    });
+                    
+                    key.addEventListener('mouseleave', () => {
+                        key.style.background = 'white';
+                        key.style.transform = 'scale(1)';
+                    });
+                    
+                    keyboard.appendChild(key);
+                }
+                console.log('✅ Created beautiful keyboard with', keyboard.children.length, 'keys');
+            }
+        });
+    </script>
+    <script src="script-enhanced.js"></script>
+</body>
+</html>

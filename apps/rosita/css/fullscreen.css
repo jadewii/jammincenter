@@ -1,0 +1,25 @@
+/* Fullscreen mode - scale up the entire app */
+body.maximized {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #000000; /* Black background for cinematic feel */
+    overflow: hidden;
+}
+
+/* Container wrapper for scaling */
+body.maximized .synth-container {
+    width: 1000px;
+    height: 650px;
+    transform-origin: center center;
+    position: relative;
+}
+
+/* JavaScript will calculate and apply the scale */
+.fullscreen-scale {
+    transition: transform 0.3s ease-out;
+}

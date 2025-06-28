@@ -1,0 +1,358 @@
+/* Retro Pixel Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Base CSS file that now imports modular CSS components */
+@import url('css/reset.css');
+@import url('css/layout.css');
+@import url('css/controls.css');
+@import url('css/keyboard.css');
+@import url('css/sequencer.css');
+@import url('css/instruments.css');
+@import url('css/arpeggiator.css');
+@import url('css/patterns.css');
+@import url('css/animations.css');
+@import url('css/responsive.css');
+@import url('css/fullscreen.css');
+
+/* Global pixel-style theming */
+* {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+body {
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1.2;
+    background-color: #90EE90;
+    margin: 0;
+    padding: 0;
+}
+
+/* Custom Pink Title Bar */
+.custom-title-bar {
+    position: relative;
+    width: 100%;
+    height: 28px;
+    background: linear-gradient(145deg, #ff69b4, #e75a9a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #d1477a;
+    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.3);
+    -webkit-app-region: drag;
+    cursor: grab;
+}
+
+.custom-title-bar .title-text {
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.window-controls {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 8px;
+    -webkit-app-region: no-drag !important;
+    z-index: 9999;
+}
+
+.window-control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-app-region: no-drag !important;
+    z-index: 9999;
+}
+
+.window-control.close {
+    background-color: #FF5F57;
+}
+
+.window-control.minimize {
+    background-color: #FFBD2E;
+}
+
+.window-control.maximize {
+    background-color: #28CA42;
+}
+
+.help-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+    transition: all 0.2s ease;
+}
+
+.help-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Remove margin adjustment since title bar is now relative */
+.synth-container {
+    margin-top: 0;
+}
+
+/* Keyboard help section */
+.keyboard-help {
+    background: #90EE90;
+    border: 2px solid #000;
+    border-top: 2px solid #FFFFFF;
+    border-left: 2px solid #FFFFFF;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    padding: 8px;
+    margin: 5px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.help-row {
+    display: flex;
+    align-items: center;
+    margin: 2px 0;
+    gap: 8px;
+}
+
+.track-label {
+    min-width: 100px;
+    font-weight: bold;
+}
+
+.track-1 { color: #FF69B4; }
+.track-2 { color: #00BFFF; }
+.track-3 { color: #9370DB; }
+
+.keys {
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2px 6px;
+    border: 1px solid #666;
+    border-radius: 2px;
+}
+
+/* Help Modal */
+.help-modal {
+    display: none;
+    position: fixed;
+    top: 28px;
+    right: 10px;
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    z-index: 1000;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.help-modal.show {
+    display: block;
+}
+
+.help-content {
+    background: #FFB6C1;
+    border: 2px solid;
+    border-color: #FFCCCB #FF1493 #FF1493 #FFCCCB;
+    padding: 0;
+    width: 300px;
+    max-height: 250px;
+    overflow-y: auto;
+    font-family: 'Azeret Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    position: relative;
+    box-shadow: 2px 2px 4px rgba(255, 20, 147, 0.4);
+}
+
+.help-header {
+    background: linear-gradient(90deg, #FF1493, #DC143C);
+    color: white;
+    padding: 6px 8px;
+    margin: 0;
+    font-weight: bold;
+    text-align: left;
+    border-bottom: 1px solid #8B008B;
+    font-family: 'Azeret Mono', monospace;
+    font-size: 11px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.help-close {
+    position: absolute;
+    top: 2px;
+    right: 6px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Azeret Mono', monospace;
+}
+
+.help-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.help-section {
+    margin: 0;
+    background: #FFCCCB;
+    padding: 4px 8px;
+    border: none;
+    border-bottom: 1px solid #FF69B4;
+}
+
+.help-section h3 {
+    background: none;
+    color: #8B008B;
+    margin: 0 0 4px 0;
+    padding: 0;
+    font-size: 10px;
+    font-family: 'Azeret Mono', monospace;
+    font-weight: 700;
+    text-shadow: none;
+    border: none;
+}
+
+.help-section p {
+    margin: 0 0 2px 0;
+    line-height: 1.2;
+    font-family: 'Azeret Mono', monospace;
+    font-size: 9px;
+    color: #8B008B;
+}
+
+.help-keys {
+    background: #FFF0F5;
+    padding: 1px 4px;
+    border: 1px solid;
+    border-color: #FF69B4 #FFFFFF #FFFFFF #FF69B4;
+    font-family: 'Azeret Mono', monospace;
+    font-size: 8px;
+    font-weight: 600;
+    color: #8B008B;
+    display: inline-block;
+    margin: 0 1px;
+}
+
+/* Mixer Panel Styles */
+.mixer-panel {
+    background: #90EE90;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    padding: 10px;
+    height: 200px;
+    overflow-y: auto;
+}
+
+.mixer-header {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #000;
+}
+
+.mixer-channels {
+    display: flex;
+    gap: 10px;
+    justify-content: space-around;
+}
+
+.mixer-channel {
+    background: #C0C0C0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    padding: 8px;
+    width: 120px;
+    border-radius: 4px;
+}
+
+.channel-header {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.channel-header h4 {
+    margin: 0 0 4px 0;
+    font-size: 10px;
+    color: #000;
+}
+
+.channel-color {
+    width: 20px;
+    height: 4px;
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+.channel-color.instrument-1 { background-color: #FF69B4; }
+.channel-color.instrument-2 { background-color: #00BFFF; }
+.channel-color.instrument-3 { background-color: #9370DB; }
+.channel-color.instrument-4 { background-color: #FFD700; }
+
+.channel-controls .control-group {
+    margin-bottom: 6px;
+}
+
+.channel-controls label {
+    display: block;
+    font-size: 8px;
+    color: #000;
+    margin-bottom: 2px;
+}
+
+.channel-controls input[type="range"] {
+    width: 100%;
+    height: 16px;
+}
+
+.volume-value,
+.pan-value {
+    font-size: 7px;
+    color: #000;
+    text-align: center;
+    display: block;
+}
+
+.mute-button,
+.solo-button {
+    background: #C0C0C0;
+    border: 1px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    font-size: 7px;
+    padding: 2px 4px;
+    margin: 1px;
+    cursor: pointer;
+    width: 48%;
+}
+
+.mute-button:hover,
+.solo-button:hover {
+    background: #E0E0E0;
+}

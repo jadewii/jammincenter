@@ -1,0 +1,67 @@
+{
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devPath": "http://localhost:1420",
+    "distDir": "../dist",
+    "withGlobalTauri": false
+  },
+  "package": {
+    "productName": "JamminCenter",
+    "version": "1.0.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "window": {
+        "all": true
+      },
+      "shell": {
+        "all": true,
+        "open": true,
+        "execute": true
+      },
+      "fs": {
+        "all": true,
+        "scope": ["**"]
+      },
+      "process": {
+        "all": true
+      },
+      "dialog": {
+        "all": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "identifier": "com.jadewii.jammincenter",
+      "targets": "all",
+      "category": "DeveloperTool",
+      "copyright": "© 2024 JAde Wii",
+      "shortDescription": "Central hub for Jammin music apps",
+      "longDescription": "JamminCenter is the central development hub for creating and managing Jammin music applications.",
+      "icon": [
+        "icons/icon.png"
+      ],
+      "macOS": {
+        "frameworks": [],
+        "minimumSystemVersion": "10.13"
+      }
+    },
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "title": "JamminCenter",
+        "width": 1400,
+        "height": 900,
+        "resizable": false,
+        "fullscreen": false,
+        "decorations": false,
+        "transparent": false,
+        "center": true
+      }
+    ]
+  }
+}

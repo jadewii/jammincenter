@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Futura', 'Century Gothic', sans-serif;
+    touch-action: manipulation;
+}
+
+body {
+    background-color: #90EE90;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    cursor: default;
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000000;
+    font-size: 18px;
+}
+
+h2 {
+    margin-bottom: 15px;
+    color: #000000;
+    font-size: 16px;
+    border-bottom: 1px solid #808080;
+    padding-bottom: 5px;
+}

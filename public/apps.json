@@ -1,0 +1,74 @@
+{
+  "apps": [
+    {
+      "id": "rosita",
+      "name": "Rosita",
+      "description": "Melodic synth engine with sequencer and beautiful drum colors",
+      "version": "2.1.0",
+      "isInstalled": true,
+      "isActivated": true,
+      "hasUpdate": false,
+      "thumbnail": "🥁",
+      "color": "#ff1493",
+      "category": "drums",
+      "icon": "rosita.png",
+      "entry": "apps/rosita/index.html"
+    },
+    {
+      "id": "arturito",
+      "name": "Arturito",
+      "description": "Advanced music production suite with vintage synthesizer emulation",
+      "version": "3.2.0",
+      "isInstalled": true,
+      "isActivated": true,
+      "hasUpdate": false,
+      "thumbnail": "🎹",
+      "color": "#00bfff",
+      "category": "synthesizers",
+      "icon": "arturito.png",
+      "entry": "apps/arturito/index.html"
+    },
+    {
+      "id": "okinori",
+      "name": "Okinori Suite",
+      "description": "Japanese-inspired composition tools with traditional instrument samples",
+      "version": "1.4.2",
+      "isInstalled": true,
+      "isActivated": true,
+      "hasUpdate": false,
+      "thumbnail": "🎌",
+      "color": "#ffd700",
+      "category": "sequencers",
+      "icon": "okinori.png",
+      "entry": "apps/okinori/index.html"
+    },
+    {
+      "id": "beatforge",
+      "name": "BeatForge",
+      "description": "AI music generator trained on your personal style and production techniques",
+      "version": "1.0.0",
+      "isInstalled": true,
+      "isActivated": true,
+      "hasUpdate": false,
+      "thumbnail": "⚡",
+      "color": "#ff6b4a",
+      "category": "grooveboxes",
+      "icon": "beatforge.png",
+      "entry": "apps/beatforge/index.html"
+    },
+    {
+      "id": "chipboi",
+      "name": "Chip Boi",
+      "description": "8-bit chiptune synthesizer with authentic Game Boy and NES sound generation",
+      "version": "1.8.0",
+      "isInstalled": true,
+      "isActivated": true,
+      "hasUpdate": false,
+      "thumbnail": "🎮",
+      "color": "#00ffff",
+      "category": "synthesizers",
+      "icon": "chipboi.png",
+      "entry": "apps/chipboi/index.html"
+    }
+  ]
+}

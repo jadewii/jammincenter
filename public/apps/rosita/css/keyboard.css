@@ -1,0 +1,161 @@
+.keyboard-container {
+    display: flex;
+    justify-content: space-between;
+    height: 160px;
+    position: relative;
+    margin-top: 0px;
+    border: 2px solid #000000;
+    padding: 4px;
+    background-color: #90EE90;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .keyboard-container {
+        height: 180px;
+    }
+}
+
+.key {
+    position: relative;
+    flex: 1;
+    height: 145px;
+    background-color: #FFFFFF;
+    border: 2px solid #000000;
+    cursor: pointer;
+    z-index: 1;
+    margin: 0 1px;
+    min-width: 18px;
+}
+
+@media (min-width: 768px) {
+    .key {
+        height: 165px;
+        min-width: 24px;
+    }
+}
+
+.key.black {
+    background-color: #FF69B4;
+    width: 20px;
+    flex: 0 0 20px;
+    height: 95px;
+    margin: 0 -10px;
+    z-index: 2;
+    border: 2px solid #000000;
+}
+
+@media (min-width: 768px) {
+    .key.black {
+        width: 24px;
+        flex: 0 0 24px;
+        height: 105px;
+        margin: 0 -12px;
+    }
+}
+
+.key.active {
+    background-color: #00FF00 !important;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.8) !important;
+    transform: translateY(2px);
+}
+
+.key.active.synth {
+    background-color: #FF1493 !important;
+    box-shadow: 0 0 10px rgba(255, 20, 147, 0.8) !important;
+}
+
+.key.active.synth.section1 {
+    background-color: #FF1493 !important; 
+}
+
+.key.active.synth.section2 {
+    background-color: #FF69B4; 
+}
+
+.key.active.synth.section3 {
+    background-color: #FFB6C1; 
+}
+
+.key.active.bass {
+    background-color: #00BFFF !important;
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.8) !important;
+}
+
+.key.active.bass.section1 {
+    background-color: #1E90FF; 
+}
+
+.key.active.bass.section2 {
+    background-color: #00BFFF; 
+}
+
+.key.active.bass.section3 {
+    background-color: #87CEEB; 
+}
+
+.key.active.keys {
+    background-color: #9370DB !important;
+    box-shadow: 0 0 10px rgba(147, 112, 219, 0.8) !important;
+}
+
+.key.active.keys.section1 {
+    background-color: #663399; 
+}
+
+.key.active.keys.section2 {
+    background-color: #9370DB; 
+}
+
+.key.active.keys.section3 {
+    background-color: #D8BFD8; 
+}
+
+.key.black.active.synth {
+    background-color: #FFB6C1; 
+}
+
+.key.black.active.synth.section1 {
+    background-color: #FF69B4; 
+}
+
+.key.black.active.synth.section2 {
+    background-color: #FF69B4; 
+}
+
+.key.black.active.synth.section3 {
+    background-color: #FFCCD5; 
+}
+
+.key.black.active.bass {
+    background-color: #00BFFF; 
+}
+
+.key.black.active.bass.section1 {
+    background-color: #1E90FF; 
+}
+
+.key.black.active.bass.section2 {
+    background-color: #4169E1; 
+}
+
+.key.black.active.bass.section3 {
+    background-color: #87CEEB; 
+}
+
+.key.black.active.keys {
+    background-color: #D8BFD8; 
+}
+
+.key.black.active.keys.section1 {
+    background-color: #9932CC; 
+}
+
+.key.black.active.keys.section2 {
+    background-color: #BA55D3; 
+}
+
+.key.black.active.keys.section3 {
+    background-color: #E6E6FA; 
+}
+

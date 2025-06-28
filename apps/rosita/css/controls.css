@@ -1,0 +1,292 @@
+.control-group {
+    margin-bottom: 18px;
+}
+
+h3 {
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 11px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 6px;
+    padding-bottom: 2px;
+    border-bottom: 2px solid #000000;
+}
+
+label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 9px;
+    color: #000000;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 24px;
+    -webkit-appearance: none;
+    background-color: #CCCCCC;
+    border: 2px solid #000000;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: #FF69B4;
+    border: 2px solid #000000;
+    cursor: pointer;
+}
+
+select {
+    width: 100%;
+    padding: 3px;
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+    font-size: 14px;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right .7em top 50%;
+    background-size: .65em auto;
+}
+
+.value-display {
+    margin-left: 6px;
+    font-weight: bold;
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 9px;
+    color: #000000;
+    background-color: #FFFFFF;
+    border: 2px solid #000000;
+    padding: 2px 4px;
+    display: inline-block;
+    min-width: 35px;
+    text-align: center;
+}
+
+.win95-button {
+    background-color: #CCCCCC;
+    border: 2px solid #000000;
+    padding: 6px 8px;
+    font-size: 10px;
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-weight: bold;
+    color: #000000;
+    cursor: pointer;
+    min-width: 50px;
+    min-height: 24px;
+}
+
+@media (min-width: 768px) {
+    .win95-button {
+        padding: 3px 8px;
+        font-size: 12px;
+        min-width: 50px;
+        min-height: unset;
+    }
+}
+
+.win95-button:active, .win95-button.active {
+    border-color: #808080 #ffffff #ffffff #808080;
+    padding-top: 4px;
+    padding-left: 9px;
+    padding-bottom: 2px;
+    padding-right: 7px;
+}
+
+.win95-button.recording {
+    background-color: #ff6347;
+    color: white;
+}
+
+.adsr-section {
+    display: block;
+}
+
+.adsr-controls {
+    margin-top: 15px;
+}
+
+.adsr-controls h3 {
+    font-size: 14px;
+    margin: 10px 0 5px 0;
+    border-bottom: 1px solid #808080;
+    padding-bottom: 3px;
+}
+
+.adsr-controls .control-group {
+    margin-bottom: 8px;
+}
+
+.adsr-controls label {
+    display: inline-block;
+    width: 15px;
+    margin-right: 5px;
+}
+
+.adsr-controls input[type="range"] {
+    width: calc(100% - 65px);
+    display: inline-block;
+    vertical-align: middle;
+    height: 24px;
+}
+
+.adsr-controls.instrument-synth input[type="range"] {
+    background-color: #FFB6C1;
+}
+
+.adsr-controls.instrument-bass input[type="range"] {
+    background-color: #87CEEB;
+}
+
+.adsr-controls.instrument-keys input[type="range"] {
+    background-color: #DDA0DD;
+}
+
+.adsr-controls.instrument-drums input[type="range"] {
+    background-color: #FFD700;
+}
+
+.random-buttons {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.random-buttons .win95-button {
+    flex: 1;
+    font-size: 12px;
+    white-space: nowrap;
+    min-width: 0; /* Allow buttons to shrink equally */
+    text-align: center;
+}
+
+.effects-controls {
+    margin-top: 15px;
+}
+
+.effects-controls h3 {
+    font-size: 14px;
+    margin: 10px 0 5px 0;
+    border-bottom: 1px solid #808080;
+    padding-bottom: 3px;
+}
+
+.effects-controls .control-group {
+    margin-bottom: 8px;
+}
+
+.effects-controls label {
+    display: inline-block;
+    width: 60px;
+    margin-right: 5px;
+}
+
+.effects-controls input[type="range"] {
+    width: calc(100% - 105px);
+    display: inline-block;
+    vertical-align: middle;
+    height: 24px;
+    background-color: #E6E6FA;
+}
+
+.effects-controls input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: #9370DB;
+    border: 2px solid #000000;
+    cursor: pointer;
+}
+
+.controls-row {
+    display: flex;
+    gap: 20px;
+}
+
+.controls-row .adsr-controls {
+    flex: 1;
+    margin-top: 0;
+}
+
+.controls-row .effects-controls {
+    flex: 1;
+    margin-top: 0;
+}
+
+.controls-row .adsr-controls input[type="range"] {
+    width: 100%;
+}
+
+.controls-row .effects-controls input[type="range"] {
+    width: 100%;
+}
+
+.controls-row .adsr-controls label {
+    width: 15px;
+}
+
+.controls-row .effects-controls label {
+    width: 15px;
+}
+
+.sequencer-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.left-controls {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.bmp-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 180px;
+}
+
+.bmp-control label {
+    font-weight: bold;
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 12px;
+    color: #000000;
+    white-space: nowrap;
+}
+
+.bmp-control input[type="range"] {
+    width: 120px;
+    height: 24px;
+    background-color: #CCCCCC;
+}
+
+.bpm-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.bpm-control label {
+    font-weight: bold;
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-size: 12px;
+    color: #000000;
+    white-space: nowrap;
+}
+
+.bpm-control input[type="range"] {
+    flex: 1;
+    height: 24px;
+    background-color: #CCCCCC;
+}
