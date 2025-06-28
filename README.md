@@ -1,50 +1,29 @@
-# 🎵 Wiistruments Center
+# 🎵 JamminCenter
 
-Central development hub for all Wiistruments music applications.
+Central hub for Jammin music apps - a beautiful modular synthesizer platform.
 
-## What We've Set Up
+## Features
 
-### ✅ Clean Project Structure
-- Separate from Rosita (no more conflicts!)
-- React + TypeScript + Tailwind CSS
-- Tauri for desktop integration
-- Pink title bar like Rosita
-- Professional dark theme
+✨ **Modular Architecture** - Run multiple music apps in one unified interface  
+🎹 **Rosita Synth** - Beautiful melodic synthesizer with sequencer and drum machine  
+🎨 **Beautiful UI** - Pink gradient design with smooth animations  
+🚀 **High Performance** - Native desktop app built with Tauri  
+📱 **Iframe Integration** - Apps run seamlessly within the main interface  
 
-### ✅ Features Included
-1. **App Management**
-   - Lists all your music apps
-   - Shows status (active/draft/planned)
-   - Version tracking
-   - Launch buttons
+## Current Apps
 
-2. **Development Tools**
-   - Dev console with logging
-   - Auto-save functionality
-   - GitHub integration ready
-   - File watcher prepared
+### Rosita
+- 4-track synthesizer (Synth, Bass, Keys, Drums)
+- 8x16 step sequencer with beautiful drum colors
+- ADSR envelope controls
+- Effects: Delay, Reverb, Saturation, Chorus
+- Arpeggiator with visual LEDs
+- Pattern memory (8 slots)
+- Tetris-style mixer mode
 
-3. **Publishing System**
-   - Ready for public/dev separation
-   - Build commands set up
-   - Release management
+## Getting Started
 
-## Next Steps
-
-### 1. Create GitHub Repository
-```bash
-# Go to https://github.com/new
-# Name: wiistruments-center
-# Make it public
-# Then:
-git init
-git add .
-git commit -m "Initial Wiistruments Center setup"
-git remote add origin https://github.com/jadewii/wiistruments-center.git
-git push -u origin main
-```
-
-### 2. Build and Test
+### Installation
 ```bash
 # Install remaining dependencies
 npm install
@@ -56,17 +35,14 @@ npm run tauri:build
 npm run tauri:dev
 ```
 
-### 3. Move to Proper Location
-After testing, move this entire folder to:
-```
-/Users/jade/Wiistrument-Development/00-Wiistruments-Center/dev-version/
-```
+### Running the App
+```bash
+# Development mode
+npm run tauri:dev
 
-### 4. Connect Your Apps
-Update the paths in App.tsx to point to your actual app locations:
-- Rosita: `../01-Active-Projects/Rosita/source-code/`
-- Arturito: `../01-Active-Projects/Arturito/source-code/`
-- Okinori: `../01-Active-Projects/Okinori/source-code/`
+# Production build
+npm run tauri:build
+```
 
 ## Architecture
 
@@ -77,31 +53,32 @@ Update the paths in App.tsx to point to your actual app locations:
 - Dark theme optimized for development
 
 ### Backend (Rust/Tauri)
-- `src-tauri/src/main.rs` - Backend logic
-- File watching capability
-- Shell command execution
-- GitHub integration hooks
+- `src-tauri/` - Tauri backend
+- `public/apps/` - Modular apps directory
+- `dist/` - Build output
 
-### Key Commands
-- `launch_app` - Opens a music app
-- `save_all_projects` - Git commits all changes
-- `sync_to_github` - Pushes to remotes
-- `start_file_watcher` - Monitors file changes
+### Adding New Apps
 
-## Workflow Benefits
+1. Create a new directory in `public/apps/`
+2. Add your app files (HTML, CSS, JS)
+3. Register in `public/apps.json`
+4. Launch from JamminCenter
 
-1. **No More Conflicts** - Separate from other projects
-2. **Central Control** - Manage all apps from one place
-3. **Auto-Save** - Never lose work
-4. **GitHub Backup** - Everything synced
-5. **Professional** - Industry-standard setup
+## Development
 
-## Development Tips
+Apps are loaded via iframes and have access to:
+- Web Audio API
+- MIDI support
+- Local storage
+- Full DOM access
 
-- Keep Wiistruments Center open while working
-- Use auto-save for peace of mind
-- Check dev console for issues
-- Publish releases when ready
+## GitHub Repository
+
+https://github.com/jadewii/jammincenter
+
+## License
+
+MIT License - feel free to use this in your own projects!
 
 ---
 
