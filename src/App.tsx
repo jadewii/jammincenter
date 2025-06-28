@@ -324,6 +324,21 @@ function App() {
           
           {/* Help button - LAST and context-aware */}
           <button 
+            onClick={() => {
+              if (currentApp) {
+                // Call showHelp function in the iframe
+                const iframe = document.querySelector('iframe') as HTMLIFrameElement;
+                if (iframe && iframe.contentWindow) {
+                  (iframe.contentWindow as any).showHelp?.();
+                }
+              } else if (showStudio) {
+                // Studio help - not implemented yet
+                alert('Studio Mode Help: Multi-app synchronization coming soon!');
+              } else {
+                // JamminCenter help
+                alert('JamminCenter Help:\n\n• Click on apps to launch them\n• Use the sidebar to navigate between My Apps, Updates, and App Library\n• Click Studio Pro for multi-app sync (coming soon)\n• Each app has its own help - click ? when inside an app');
+              }
+            }}
             className="w-6 h-6 bg-white/20 text-white rounded-full hover:bg-white/30 transition-all duration-200 flex items-center justify-center text-xs border border-white/30"
             title={currentApp ? `${currentApp.name} Help & Instructions` : showStudio ? "Studio Help" : "Wiistruments Center Help"}
           >
@@ -360,11 +375,26 @@ function App() {
       {/* App Content, Studio, or Main Content */}
       {currentApp ? (
         /* Full Screen App View */
-        <div className="flex-1 relative">
+        <div className="flex-1 relative overflow-hidden" style={{ 
+          width: '1300px', 
+          height: '845px',
+          position: 'absolute',
+          top: '32px',
+          left: '0'
+        }}>
           {/* Load app content via iframe for proper CSS/JS execution */}
           <iframe 
             src={`/apps/${currentApp.id}/index.html`}
-            className="w-full h-full border-0 bg-white"
+            className="border-0 bg-white"
+            style={{
+              width: '1000px',
+              height: '650px',
+              transform: 'scale(1.3)',
+              transformOrigin: '0 0',
+              position: 'absolute',
+              top: '0',
+              left: '0'
+            }}
             title={currentApp.name}
             allow="microphone; midi; autoplay"
             sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-popups"

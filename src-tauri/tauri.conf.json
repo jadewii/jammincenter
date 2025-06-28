@@ -54,8 +54,8 @@
     "windows": [
       {
         "title": "JamminCenter",
-        "width": 1400,
-        "height": 900,
+        "width": 1300,
+        "height": 845,
         "resizable": false,
         "fullscreen": false,
         "decorations": false,
