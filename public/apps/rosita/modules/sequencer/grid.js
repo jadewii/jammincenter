@@ -16,9 +16,15 @@ class SequencerGrid {
         
         console.log('🔧 Creating grid for instrument:', this.sequencer.currentInstrument);
         
-        // Remove all mixer-related classes
+        // Remove all mixer-related classes AND drum kit classes that cause color bleeding
         sequencerGrid.classList.remove('mixer-grid');
         sequencerGrid.classList.remove('mixer-grid-vertical');
+        sequencerGrid.classList.remove('kit-1', 'kit-2', 'kit-3', 'kit-4');
+        
+        // Only add drum kit class if we're currently on drums
+        if (this.sequencer.currentInstrument === 'drums') {
+            sequencerGrid.classList.add('kit-1'); // Default to kit 1
+        }
         
         this.gridCells = []; // Reset the grid cells cache
         
@@ -51,13 +57,17 @@ class SequencerGrid {
             // Display active cells for other instruments with lower opacity
             for (const instrument of Object.keys(this.sequencer.sequencerTracks)) {
                 if (instrument !== this.sequencer.currentInstrument && this.sequencer.sequencerTracks[instrument][i]) {
-                    cell.classList.add(`${instrument}`);
-                    
-                    // Special handling for drums from other tracks
-                    if (instrument === 'drums') {
-                        const row = Math.floor(i / 8);
-                        cell.classList.add('drum-track');
-                        cell.classList.add(`drum-row-${row}`);
+                    // Only add instrument class for background instruments if we're not currently on drums
+                    // This prevents drum classes from bleeding into other track views
+                    if (this.sequencer.currentInstrument !== 'drums' || instrument !== 'drums') {
+                        cell.classList.add(`${instrument}`);
+                        
+                        // Only add drum-specific classes if we're currently viewing drums
+                        if (instrument === 'drums' && this.sequencer.currentInstrument === 'drums') {
+                            const row = Math.floor(i / 8);
+                            cell.classList.add('drum-track');
+                            cell.classList.add(`drum-row-${row}`);
+                        }
                     }
                 }
             }
