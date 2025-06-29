@@ -3,13 +3,22 @@
     windows_subsystem = "windows"
 )]
 
+mod audio_engine;
+
 use std::sync::Mutex;
 use tauri::{Manager, WindowBuilder, WindowUrl};
+use lazy_static::lazy_static;
+use audio_engine::AudioEngine;
 
 #[derive(Clone, serde::Serialize)]
 struct FileChangePayload {
     app_id: String,
     file_path: String,
+}
+
+// Global audio engine
+lazy_static! {
+    static ref AUDIO_ENGINE: Mutex<Option<AudioEngine>> = Mutex::new(None);
 }
 
 struct AppState {
@@ -99,6 +108,63 @@ fn start_file_watcher(_window: tauri::Window) -> Result<String, String> {
     Ok("File watcher started".to_string())
 }
 
+// Audio commands
+#[tauri::command]
+fn init_audio() -> Result<String, String> {
+    let mut engine = AUDIO_ENGINE.lock().unwrap();
+    match AudioEngine::new() {
+        Ok(new_engine) => {
+            *engine = Some(new_engine);
+            Ok("Audio engine initialized".to_string())
+        }
+        Err(e) => Err(format!("Failed to initialize audio: {}", e))
+    }
+}
+
+#[tauri::command]
+fn play_note(note_id: String, frequency: f32, instrument: u8, volume: f32) -> Result<(), String> {
+    let engine = AUDIO_ENGINE.lock().unwrap();
+    if let Some(audio) = engine.as_ref() {
+        audio.play_note(note_id, frequency, instrument, volume)
+            .map_err(|e| format!("Failed to play note: {}", e))
+    } else {
+        Err("Audio engine not initialized".to_string())
+    }
+}
+
+#[tauri::command]
+fn stop_note(note_id: String) -> Result<(), String> {
+    let engine = AUDIO_ENGINE.lock().unwrap();
+    if let Some(audio) = engine.as_ref() {
+        audio.stop_note(note_id)
+            .map_err(|e| format!("Failed to stop note: {}", e))
+    } else {
+        Err("Audio engine not initialized".to_string())
+    }
+}
+
+#[tauri::command]
+fn stop_all_notes() -> Result<(), String> {
+    let engine = AUDIO_ENGINE.lock().unwrap();
+    if let Some(audio) = engine.as_ref() {
+        audio.stop_all_notes()
+            .map_err(|e| format!("Failed to stop all notes: {}", e))
+    } else {
+        Err("Audio engine not initialized".to_string())
+    }
+}
+
+#[tauri::command]
+fn set_effect_param(effect: String, value: f32) -> Result<(), String> {
+    let engine = AUDIO_ENGINE.lock().unwrap();
+    if let Some(audio) = engine.as_ref() {
+        audio.set_effect_param(&effect, value)
+            .map_err(|e| format!("Failed to set effect param: {}", e))
+    } else {
+        Err("Audio engine not initialized".to_string())
+    }
+}
+
 fn main() {
     tauri::Builder::default()
         .manage(AppState {
@@ -109,7 +175,12 @@ fn main() {
             launch_app_window,
             save_all_projects,
             sync_to_github,
-            start_file_watcher
+            start_file_watcher,
+            init_audio,
+            play_note,
+            stop_note,
+            stop_all_notes,
+            set_effect_param
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

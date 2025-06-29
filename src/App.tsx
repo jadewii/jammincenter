@@ -162,7 +162,7 @@ function App() {
   const closeApp = () => {
     setCurrentApp(null);
     setShowStudio(false);
-    addDevLog(`📱 Returned to Wiistruments Center`);
+    addDevLog(`📱 Returned to App Library`);
   };
 
   const openStudio = () => {
@@ -313,11 +313,23 @@ function App() {
             🎛️
           </button>
           
+          {/* Piano button - go to JamminCenter UI */}
+          <button 
+            onClick={() => {
+              setCurrentApp(null);
+              setShowStudio(false);
+            }}
+            className="w-6 h-6 bg-white/20 text-white rounded-full hover:bg-white/30 transition-all duration-200 flex items-center justify-center text-xs border border-white/30"
+            title="Open JamminCenter UI"
+          >
+            🎹
+          </button>
+          
           {/* Home button - always visible */}
           <button 
             onClick={closeApp}
             className="w-6 h-6 bg-white/20 text-white rounded-full hover:bg-white/30 transition-all duration-200 flex items-center justify-center text-xs border border-white/30"
-            title="Return to Wiistruments Center"
+            title="Return to Pixel Hub"
           >
             🏠
           </button>

@@ -162,13 +162,13 @@
 }
 
 .instrument-synth input[type="range"] {
-    background: linear-gradient(to right, #90EE90, #FF69B4);
+    background: linear-gradient(to right, #FFE0EC, #FF69B4);
 }
 
 .instrument-bass input[type="range"] {
-    background: linear-gradient(to right, #90EE90, #00BFFF);
+    background: linear-gradient(to right, #E0F3FF, #00BFFF);
 }
 
 .instrument-keys input[type="range"] {
-    background: linear-gradient(to right, #90EE90, #9370DB);
+    background: linear-gradient(to right, #E6E6FA, #9370DB);
 }

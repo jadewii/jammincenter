@@ -17,7 +17,7 @@
     grid-template-rows: repeat(8, 1fr) !important;
     gap: 1px !important;
     padding: 4px !important;
-    background: #90EE90 !important;
+    background: #FFB6C1 !important;
     border: none !important;
     height: 200px !important;
     width: 100% !important;
@@ -46,33 +46,33 @@
     border-color: #ffffff #808080 #808080 #ffffff !important; /* Same 3D border style as normal grid */
 }
 
-/* Grid background colors match instrument colors */
+/* Grid background colors match instrument BUTTON colors exactly */
 .sequencer-grid.instrument-1-mode {
-    background: #FFB6C1 !important; /* Pink background for track 1 */
+    background: #FFB6C1 !important; /* Light pink background for track 1 */
 }
 .sequencer-grid.instrument-1-mode .grid-cell {
-    background-color: #FFB6C1 !important; /* Pink cells for track 1 */
+    background-color: #FFE0EC !important; /* Very light pink cells for track 1 */
 }
 
 .sequencer-grid.instrument-2-mode {
-    background: #87CEEB !important; /* Blue background for track 2 */
+    background: #87CEEB !important; /* Light blue background for track 2 */
 }
 .sequencer-grid.instrument-2-mode .grid-cell {
-    background-color: #87CEEB !important; /* Blue cells for track 2 */
+    background-color: #B0E0E6 !important; /* Very light blue cells for track 2 */
 }
 
 .sequencer-grid.instrument-3-mode {
-    background: #DDA0DD !important; /* Purple background for track 3 */
+    background: #DDA0DD !important; /* Light purple background for track 3 */
 }
 .sequencer-grid.instrument-3-mode .grid-cell {
-    background-color: #DDA0DD !important; /* Purple cells for track 3 */
+    background-color: #E6E6FA !important; /* Lavender cells for track 3 */
 }
 
 .sequencer-grid.instrument-4-mode {
-    background: #FFCC99 !important; /* Pretty peach orange for track 4 - Kit 1 default */
+    background: #FFE4B5 !important; /* Light peach/yellow background for track 4 */
 }
 .sequencer-grid.instrument-4-mode .grid-cell {
-    background-color: #FFCC99 !important; /* Pretty peach orange for track 4 - Kit 1 default */
+    background-color: #FFF8DC !important; /* Very light yellow cells for track 4 */
 }
 
 /* Kit-specific grid background colors for drums */
@@ -84,10 +84,10 @@
 }
 
 .sequencer-grid.kit-2 {
-    background: #98FB98 !important; /* Green for Kit 2 */
+    background: #B0E0E6 !important; /* Light blue for Kit 2 */
 }
 .sequencer-grid.kit-2 .grid-cell {
-    background-color: #98FB98 !important; /* Green cells for Kit 2 */
+    background-color: #E0F3FF !important; /* Very light blue cells for Kit 2 */
 }
 
 .sequencer-grid.kit-3 {
@@ -112,7 +112,7 @@
 
 
 .grid-cell {
-    background-color: #90EE90; 
+    background-color: #FFB6C1; 
     border: 2px solid;
     border-color: #ffffff #808080 #808080 #ffffff;
     cursor: pointer;
@@ -141,67 +141,67 @@
 /* Removed generic pink border - using specific colors below */
 
 .grid-cell.instrument-1.active {
-    background-color: #FF91A4 !important; /* Darker pink for active steps */
-    border-color: #FF1493 #FF1493 #FF1493 #FF1493 !important; /* Even darker pink border */
+    background-color: #FF69B4 !important; /* Hot pink for active steps - matches button */
+    border-color: #FF1493 #FF1493 #FF1493 #FF1493 !important; /* Deep pink border */
 }
 
 .grid-cell.instrument-2.active {
-    background-color: #6BB6D6 !important; /* Darker blue for active steps */
-    border-color: #4682B4 #4682B4 #4682B4 #4682B4 !important; /* Even darker blue border */
+    background-color: #00BFFF !important; /* Deep sky blue for active steps - matches button */
+    border-color: #1E90FF #1E90FF #1E90FF #1E90FF !important; /* Dodger blue border */
 }
 
 .grid-cell.instrument-3.active {
-    background-color: #C085C0 !important; /* Darker purple for active steps */
-    border-color: #9370DB #9370DB #9370DB #9370DB !important; /* Even darker purple border */
+    background-color: #9370DB !important; /* Medium purple for active steps - matches button */
+    border-color: #8A2BE2 #8A2BE2 #8A2BE2 #8A2BE2 !important; /* Blue violet border */
 }
 
 /* Drum row colors - each row gets its own color - HIGHEST SPECIFICITY to override beat markers */
 .grid-cell.instrument-4.active.beat-marker[data-track="0"],
 .grid-cell.instrument-4.active[data-track="0"] {
-    background-color: #FF8FA3 !important; /* Red - Kick */
-    border-color: #FF1493 #FF1493 #FF1493 #FF1493 !important;
+    background-color: #FFA500 !important; /* Orange - Kick */
+    border-color: #FF8C00 #FF8C00 #FF8C00 #FF8C00 !important;
 }
 
 .grid-cell.instrument-4.active.beat-marker[data-track="1"],
 .grid-cell.instrument-4.active[data-track="1"] {
-    background-color: #87CEEB !important; /* Blue - Snare */
-    border-color: #4682B4 #4682B4 #4682B4 #4682B4 !important;
+    background-color: #00BFFF !important; /* Blue - Snare */
+    border-color: #1E90FF #1E90FF #1E90FF #1E90FF !important;
 }
 
 .grid-cell.instrument-4.active.beat-marker[data-track="2"],
 .grid-cell.instrument-4.active[data-track="2"] {
-    background-color: #98FB98 !important; /* Green - Hi-hat */
+    background-color: #00FF00 !important; /* Lime - Hi-hat */
     border-color: #32CD32 #32CD32 #32CD32 #32CD32 !important;
 }
 
 .grid-cell.instrument-4.active.beat-marker[data-track="3"],
 .grid-cell.instrument-4.active[data-track="3"] {
-    background-color: #FFD6E0 !important; /* Light pink - Hat 2 */
-    border-color: #FF69B4 #FF69B4 #FF69B4 #FF69B4 !important;
+    background-color: #EE82EE !important; /* Violet - Hat 2 / Percussion */
+    border-color: #9370DB #9370DB #9370DB #9370DB !important;
 }
 
 .grid-cell.instrument-4.active.beat-marker[data-track="4"],
 .grid-cell.instrument-4.active[data-track="4"] {
-    background-color: #DDA0DD !important; /* Purple - Perc 1 */
+    background-color: #EE82EE !important; /* Violet - Perc 1 */
     border-color: #9370DB #9370DB #9370DB #9370DB !important;
 }
 
 .grid-cell.instrument-4.active.beat-marker[data-track="5"],
 .grid-cell.instrument-4.active[data-track="5"] {
-    background-color: #AFEEEE !important; /* Teal - Perc 2 */
-    border-color: #48D1CC #48D1CC #48D1CC #48D1CC !important;
+    background-color: #EE82EE !important; /* Violet - Perc 2 */
+    border-color: #9370DB #9370DB #9370DB #9370DB !important;
 }
 
 .grid-cell.instrument-4.active.beat-marker[data-track="6"],
 .grid-cell.instrument-4.active[data-track="6"] {
-    background-color: #F0E68C !important; /* Yellow - Perc 3 */
-    border-color: #DAA520 #DAA520 #DAA520 #DAA520 !important;
+    background-color: #EE82EE !important; /* Violet - Perc 3 */
+    border-color: #9370DB #9370DB #9370DB #9370DB !important;
 }
 
 .grid-cell.instrument-4.active.beat-marker[data-track="7"],
 .grid-cell.instrument-4.active[data-track="7"] {
-    background-color: #FFCC99 !important; /* Peach - Perc 4 */
-    border-color: #FF8C00 #FF8C00 #FF8C00 #FF8C00 !important;
+    background-color: #EE82EE !important; /* Violet - Perc 4 */
+    border-color: #9370DB #9370DB #9370DB #9370DB !important;
 }
 
 /* Remove all outlines and box-shadows from grid cells */
@@ -246,32 +246,38 @@
 
 
 
-.beat-marker {
-    background-color: #A0E7A0;
+/* BEAT MARKERS - MAXIMUM SPECIFICITY TO NEVER BE OVERRIDDEN */
+/* Beat markers for each instrument - placed AFTER all other rules */
+.sequencer-grid.instrument-1-mode .grid-cell.beat-marker:not(.active) {
+    background-color: #FFC0CB !important; /* Light pink beat markers for track 1 */
 }
 
-/* Beat markers for drums - highest specificity to override all other colors */
-.sequencer-grid.kit-1 .grid-cell.beat-marker.instrument-4,
-.sequencer-grid.kit-1 .grid-cell.instrument-4.beat-marker,
-.sequencer-grid.kit-1 .grid-cell.beat-marker {
+.sequencer-grid.instrument-2-mode .grid-cell.beat-marker:not(.active) {
+    background-color: #ADD8E6 !important; /* Light blue beat markers for track 2 */
+}
+
+.sequencer-grid.instrument-3-mode .grid-cell.beat-marker:not(.active) {
+    background-color: #E6E6FA !important; /* Lavender beat markers for track 3 */
+}
+
+.sequencer-grid.instrument-4-mode .grid-cell.beat-marker:not(.active) {
+    background-color: #FFE4CC !important; /* Light peach beat markers for track 4 */
+}
+
+/* Kit-specific beat markers for drums */
+.sequencer-grid.instrument-4-mode.kit-1 .grid-cell.beat-marker:not(.active) {
     background-color: #FFE0CC !important; /* Lighter peach for Kit 1 beat markers */
 }
 
-.sequencer-grid.kit-2 .grid-cell.beat-marker.instrument-4,
-.sequencer-grid.kit-2 .grid-cell.instrument-4.beat-marker,
-.sequencer-grid.kit-2 .grid-cell.beat-marker {
+.sequencer-grid.instrument-4-mode.kit-2 .grid-cell.beat-marker:not(.active) {
     background-color: #B8FFB8 !important; /* Lighter green for Kit 2 beat markers */
 }
 
-.sequencer-grid.kit-3 .grid-cell.beat-marker.instrument-4,
-.sequencer-grid.kit-3 .grid-cell.instrument-4.beat-marker,
-.sequencer-grid.kit-3 .grid-cell.beat-marker {
+.sequencer-grid.instrument-4-mode.kit-3 .grid-cell.beat-marker:not(.active) {
     background-color: #FFF4A3 !important; /* Lighter yellow for Kit 3 beat markers */
 }
 
-.sequencer-grid.kit-4 .grid-cell.beat-marker.instrument-4,
-.sequencer-grid.kit-4 .grid-cell.instrument-4.beat-marker,
-.sequencer-grid.kit-4 .grid-cell.beat-marker {
+.sequencer-grid.instrument-4-mode.kit-4 .grid-cell.beat-marker:not(.active) {
     background-color: #C6E2FF !important; /* Lighter blue for Kit 4 beat markers */
 }
 
@@ -283,7 +289,7 @@
     gap: 3px;
     border: 2px solid;
     border-color: #808080 #ffffff #ffffff #808080;
-    background-color: #7CCD7C; 
+    background-color: #FFB6C1; 
     padding: 5px;
     height: 250px;
     margin-bottom: 5px;
@@ -312,7 +318,7 @@
 .mixer-corner-cell {
     width: 60px;
     min-width: 60px;
-    background-color: #7CCD7C;
+    background-color: #FFB6C1;
     margin-right: 3px;
     border-radius: 4px;
 }
@@ -442,4 +448,22 @@
 .grid-cell.effects-on {
     background-color: #00CED1 !important;
     border-color: #AFEEEE #008B8B #008B8B #AFEEEE !important;
+}
+
+/* ABSOLUTE FINAL BEAT MARKER OVERRIDE - THIS MUST BE LAST IN THE FILE */
+/* This ensures beat markers ALWAYS show the correct color */
+body .sequencer-grid.instrument-1-mode .grid-cell.beat-marker:not(.active):not(.playing) {
+    background-color: #FFC0CB !important; /* Light pink beat markers for track 1 */
+}
+
+body .sequencer-grid.instrument-2-mode .grid-cell.beat-marker:not(.active):not(.playing) {
+    background-color: #ADD8E6 !important; /* Light blue beat markers for track 2 */
+}
+
+body .sequencer-grid.instrument-3-mode .grid-cell.beat-marker:not(.active):not(.playing) {
+    background-color: #E6E6FA !important; /* Lavender beat markers for track 3 */
+}
+
+body .sequencer-grid.instrument-4-mode .grid-cell.beat-marker:not(.active):not(.playing) {
+    background-color: #FFE4CC !important; /* Light peach beat markers for track 4 */
 }

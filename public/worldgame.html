@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>World Game</title>
+    <style>
+        body { margin: 0; padding: 0; background: #000; overflow: hidden; }
+        canvas { display: block; margin: 20px auto; image-rendering: pixelated; }
+    </style>
+</head>
+<body>
+    <canvas id="game"></canvas>
+    <script>
+        const c = document.getElementById('game');
+        const ctx = c.getContext('2d');
+        c.width = 160;
+        c.height = 144;
+        c.style.width = '480px';
+        c.style.height = '432px';
+        ctx.imageSmoothingEnabled = false;
+        
+        // JADE SPRITE
+        const jade = new Image();
+        jade.src = '/apps/rosita/JAde sprite.png';
+        
+        let px = 5, py = 5; // Player position
+        const keys = {};
+        
+        document.addEventListener('keydown', e => keys[e.key] = true);
+        document.addEventListener('keyup', e => keys[e.key] = false);
+        
+        function draw() {
+            // Green background
+            ctx.fillStyle = '#4CAF50';
+            ctx.fillRect(0, 0, 160, 144);
+            
+            // Draw grid pattern
+            for(let y = 0; y < 9; y++) {
+                for(let x = 0; x < 10; x++) {
+                    ctx.fillStyle = (x + y) % 2 ? '#45A049' : '#4CAF50';
+                    ctx.fillRect(x * 16, y * 16, 16, 16);
+                }
+            }
+            
+            // Buildings
+            ctx.fillStyle = '#E91E63';
+            ctx.fillRect(32, 32, 48, 48);
+            ctx.fillStyle = '#FFF';
+            ctx.font = '8px monospace';
+            ctx.fillText('JADE', 40, 28);
+            
+            ctx.fillStyle = '#2196F3';
+            ctx.fillRect(96, 32, 48, 48);
+            ctx.fillStyle = '#FFF';
+            ctx.fillText('MUSIC', 100, 28);
+            
+            // Draw Jade sprite or pink square
+            if (jade.complete) {
+                ctx.drawImage(jade, 0, 0, 16, 16, px * 16, py * 16, 16, 16);
+            } else {
+                ctx.fillStyle = '#FF69B4';
+                ctx.fillRect(px * 16, py * 16, 16, 16);
+            }
+            
+            // Instructions
+            ctx.fillStyle = '#FFF';
+            ctx.fillText('Arrow keys to move', 30, 140);
+        }
+        
+        function update() {
+            if (keys['ArrowUp'] && py > 0) py--;
+            if (keys['ArrowDown'] && py < 8) py++;
+            if (keys['ArrowLeft'] && px > 0) px--;
+            if (keys['ArrowRight'] && px < 9) px++;
+            
+            // Check music center
+            if (px >= 6 && px <= 8 && py >= 2 && py <= 4) {
+                window.parent.postMessage({ action: 'launchJamminCenter' }, '*');
+            }
+            
+            draw();
+        }
+        
+        jade.onload = () => console.log('Jade sprite loaded!');
+        setInterval(update, 100);
+        draw();
+    </script>
+</body>
+</html>

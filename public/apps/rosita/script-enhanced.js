@@ -30,7 +30,8 @@ class DrumSampler {
             'extra4'  // Row 11
         ];
         
-        this.loadCurrentKit();
+        // Don't load kit immediately - it might fail and prevent UI creation
+        // this.loadCurrentKit();
     }
     
     async loadAudioBuffer(url) {
@@ -155,87 +156,22 @@ class DrumSampler {
         
         source.buffer = buffer;
         
-        // Apply velocity
-        gainNode.gain.setValueAtTime(velocity * 0.8, this.audioContext.currentTime);
+        // Apply velocity with reduced volume for safety
+        gainNode.gain.setValueAtTime(velocity * 0.4, this.audioContext.currentTime); // Reduced from 0.8
         
         // Apply pan
         panNode.pan.setValueAtTime(pan, this.audioContext.currentTime);
         
-        // Connect nodes
+        // Simple connection without per-note effects
         source.connect(gainNode);
+        gainNode.connect(panNode);
         
-        // Apply effects chain
-        let currentNode = gainNode;
-        
-        // Delay effect
-        if (effects.delay && effects.delay > 0) {
-            const delayNode = this.audioContext.createDelay(1.0);
-            const feedbackGain = this.audioContext.createGain();
-            const wetGain = this.audioContext.createGain();
-            
-            delayNode.delayTime.setValueAtTime(effects.delay * 0.5, this.audioContext.currentTime);
-            feedbackGain.gain.setValueAtTime(effects.delay * 0.7, this.audioContext.currentTime);
-            wetGain.gain.setValueAtTime(effects.delay * 0.5, this.audioContext.currentTime);
-            
-            currentNode.connect(delayNode);
-            delayNode.connect(feedbackGain);
-            feedbackGain.connect(delayNode);
-            delayNode.connect(wetGain);
-            
-            // Mix dry and wet
-            const mixNode = this.audioContext.createGain();
-            currentNode.connect(mixNode);
-            wetGain.connect(mixNode);
-            currentNode = mixNode;
+        // Connect to global effects bus if available
+        if (window.globalEffectsBus) {
+            panNode.connect(window.globalEffectsBus);
+        } else {
+            panNode.connect(this.audioContext.destination);
         }
-        
-        // Reverb effect
-        if (effects.reverb && effects.reverb > 0) {
-            const convolver = this.audioContext.createConvolver();
-            const impulseLength = 44100 * 2; // 2 seconds
-            const impulse = this.audioContext.createBuffer(2, impulseLength, 44100);
-            
-            for (let channel = 0; channel < 2; channel++) {
-                const channelData = impulse.getChannelData(channel);
-                for (let i = 0; i < impulseLength; i++) {
-                    channelData[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / impulseLength, 2);
-                }
-            }
-            
-            convolver.buffer = impulse;
-            
-            const wetGain = this.audioContext.createGain();
-            wetGain.gain.setValueAtTime(effects.reverb * 0.5, this.audioContext.currentTime);
-            
-            currentNode.connect(wetGain);
-            wetGain.connect(convolver);
-            
-            const mixNode = this.audioContext.createGain();
-            currentNode.connect(mixNode);
-            convolver.connect(mixNode);
-            currentNode = mixNode;
-        }
-        
-        // Saturation effect
-        if (effects.saturation && effects.saturation > 0) {
-            const waveshaper = this.audioContext.createWaveShaper();
-            const amount = effects.saturation * 50;
-            const samples = 44100;
-            const curve = new Float32Array(samples);
-            
-            for (let i = 0; i < samples; i++) {
-                const x = (i * 2) / samples - 1;
-                curve[i] = Math.sign(x) * Math.pow(Math.abs(Math.tanh(x * amount)), 0.7);
-            }
-            
-            waveshaper.curve = curve;
-            waveshaper.oversample = '4x';
-            currentNode.connect(waveshaper);
-            currentNode = waveshaper;
-        }
-        
-        currentNode.connect(panNode);
-        panNode.connect(this.audioContext.destination);
         
         source.start();
     }
@@ -310,45 +246,45 @@ let mixerVisible = false;
 let instrumentVolumes = { 1: 0.8, 2: 0.8, 3: 0.8, 4: 0.8 };
 let instrumentPans = { 1: 0, 2: 0, 3: 0, 4: 0 };
 
-// Enhanced instrument definitions with multiple sound variations
+// Enhanced instrument definitions with reduced volumes for safety
 const instrumentSounds = {
     1: { // Synth
         sounds: [
-            { name: 'Saw Lead', type: 'sawtooth', volume: 0.3, decay: 0.8 },
-            { name: 'Square Lead', type: 'square', volume: 0.25, decay: 0.6 },
-            { name: 'Triangle Wave', type: 'triangle', volume: 0.4, decay: 1.0 },
-            { name: 'Sine Wave', type: 'sine', volume: 0.35, decay: 1.2 }
+            { name: 'Saw Lead', type: 'sawtooth', volume: 0.15, decay: 0.8 }, // Reduced from 0.3
+            { name: 'Square Lead', type: 'square', volume: 0.12, decay: 0.6 }, // Reduced from 0.25
+            { name: 'Triangle Wave', type: 'triangle', volume: 0.2, decay: 1.0 }, // Reduced from 0.4
+            { name: 'Sine Wave', type: 'sine', volume: 0.17, decay: 1.2 } // Reduced from 0.35
         ],
         currentSound: 0
     },
     2: { // Bass
         sounds: [
-            { name: 'Sub Bass', type: 'sine', volume: 0.5, decay: 0.3 },
-            { name: 'Square Bass', type: 'square', volume: 0.4, decay: 0.4 },
-            { name: 'Saw Bass', type: 'sawtooth', volume: 0.35, decay: 0.5 },
-            { name: 'FM Bass', type: 'triangle', volume: 0.45, decay: 0.25 }
+            { name: 'Sub Bass', type: 'sine', volume: 0.25, decay: 0.3 }, // Reduced from 0.5
+            { name: 'Square Bass', type: 'square', volume: 0.2, decay: 0.4 }, // Reduced from 0.4
+            { name: 'Saw Bass', type: 'sawtooth', volume: 0.17, decay: 0.5 }, // Reduced from 0.35
+            { name: 'FM Bass', type: 'triangle', volume: 0.22, decay: 0.25 } // Reduced from 0.45
         ],
         currentSound: 0
     },
     3: { // Keys
         sounds: [
-            { name: 'Electric Piano', type: 'sine', volume: 0.3, decay: 1.5 },
-            { name: 'Organ', type: 'square', volume: 0.25, decay: 2.0 },
-            { name: 'Bell', type: 'triangle', volume: 0.4, decay: 3.0 },
-            { name: 'Pad', type: 'sawtooth', volume: 0.2, decay: 4.0 }
+            { name: 'Electric Piano', type: 'sine', volume: 0.15, decay: 1.5 }, // Reduced from 0.3
+            { name: 'Organ', type: 'square', volume: 0.12, decay: 2.0 }, // Reduced from 0.25
+            { name: 'Bell', type: 'triangle', volume: 0.2, decay: 3.0 }, // Reduced from 0.4
+            { name: 'Pad', type: 'sawtooth', volume: 0.1, decay: 4.0 } // Reduced from 0.2
         ],
         currentSound: 0
     },
     4: { // Drums - special drum machine
         sounds: [
-            { name: 'Kick', type: 'sine', volume: 0.8, decay: 0.15, freq: 60 },
-            { name: 'Snare', type: 'sawtooth', volume: 0.6, decay: 0.2, freq: 200, noise: true },
-            { name: 'Hi-Hat', type: 'square', volume: 0.4, decay: 0.08, freq: 8000, noise: true },
-            { name: 'Open Hat', type: 'square', volume: 0.5, decay: 0.4, freq: 10000, noise: true },
-            { name: 'Clap', type: 'sawtooth', volume: 0.7, decay: 0.12, freq: 1000, noise: true },
-            { name: 'Crash', type: 'triangle', volume: 0.6, decay: 1.0, freq: 5000, noise: true },
-            { name: 'Ride', type: 'triangle', volume: 0.5, decay: 0.6, freq: 3000, noise: true },
-            { name: 'Tom', type: 'sine', volume: 0.7, decay: 0.25, freq: 150 }
+            { name: 'Kick', type: 'sine', volume: 0.4, decay: 0.15, freq: 60 }, // Reduced from 0.8
+            { name: 'Snare', type: 'sawtooth', volume: 0.3, decay: 0.2, freq: 200, noise: true }, // Reduced from 0.6
+            { name: 'Hi-Hat', type: 'square', volume: 0.2, decay: 0.08, freq: 8000, noise: true }, // Reduced from 0.4
+            { name: 'Open Hat', type: 'square', volume: 0.25, decay: 0.4, freq: 10000, noise: true }, // Reduced from 0.5
+            { name: 'Clap', type: 'sawtooth', volume: 0.35, decay: 0.12, freq: 1000, noise: true }, // Reduced from 0.7
+            { name: 'Crash', type: 'triangle', volume: 0.3, decay: 1.0, freq: 5000, noise: true }, // Reduced from 0.6
+            { name: 'Ride', type: 'triangle', volume: 0.25, decay: 0.6, freq: 3000, noise: true }, // Reduced from 0.5
+            { name: 'Tom', type: 'sine', volume: 0.35, decay: 0.25, freq: 150 } // Reduced from 0.7
         ],
         currentSound: 0,
         isDrumMachine: true
@@ -399,8 +335,33 @@ const scales = {
     minor: ['C', 'D', 'D#', 'F', 'G', 'G#', 'A#', 'C']
 };
 
+// Global effects nodes
+let globalEffectsBus = null;
+let globalDelay = null;
+let globalDelayGain = null;
+let globalDelayFeedback = null;
+let globalReverb = null;
+let globalReverbGain = null;
+let globalChorus = null;
+let globalChorusGain = null;
+let globalChorusLFO = null;
+
 // Initialize audio context
 async function initAudio() {
+    // Try Rust audio first if in Tauri
+    if (window.rustAudio && window.__TAURI__) {
+        try {
+            const success = await window.rustAudio.init();
+            if (success) {
+                console.log('✅ Using Rust audio backend');
+                return;
+            }
+        } catch (error) {
+            console.error('Failed to initialize Rust audio:', error);
+        }
+    }
+    
+    // Fallback to Web Audio
     try {
         if (!audioContext) {
             audioContext = new (window.AudioContext || window.webkitAudioContext)({
@@ -409,9 +370,106 @@ async function initAudio() {
             });
             console.log('✅ Audio context created with low latency settings');
             
+            // Create global effects bus with proper gain staging
+            globalEffectsBus = audioContext.createGain();
+            globalEffectsBus.gain.value = 0.5; // Reduced master volume for headroom
+            
+            // Create compressor/limiter for safety
+            const compressor = audioContext.createDynamicsCompressor();
+            compressor.threshold.value = -12;
+            compressor.knee.value = 2;
+            compressor.ratio.value = 8;
+            compressor.attack.value = 0.003;
+            compressor.release.value = 0.25;
+            
+            // Create limiter (aggressive compressor)
+            const limiter = audioContext.createDynamicsCompressor();
+            limiter.threshold.value = -3;
+            limiter.knee.value = 0;
+            limiter.ratio.value = 20;
+            limiter.attack.value = 0.001;
+            limiter.release.value = 0.1;
+            
+            // Create simple delay with NO feedback
+            globalDelay = audioContext.createDelay(0.5);
+            globalDelayGain = audioContext.createGain();
+            globalDelay.delayTime.value = 0.25;
+            globalDelayGain.gain.value = 0;
+            
+            // Simple delay connection - no feedback loop
+            globalEffectsBus.connect(globalDelay);
+            globalDelay.connect(globalDelayGain);
+            
+            // Create very simple reverb with tiny buffer
+            globalReverb = audioContext.createConvolver();
+            globalReverbGain = audioContext.createGain();
+            globalReverbGain.gain.value = 0;
+            
+            // Very small reverb impulse for safety
+            const length = audioContext.sampleRate * 0.1; // Very short reverb
+            const impulse = audioContext.createBuffer(2, length, audioContext.sampleRate);
+            for (let channel = 0; channel < 2; channel++) {
+                const channelData = impulse.getChannelData(channel);
+                for (let i = 0; i < length; i++) {
+                    channelData[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 4); // Very fast decay
+                }
+            }
+            globalReverb.buffer = impulse;
+            
+            // Connect reverb through a safety limiter
+            const reverbLimiter = audioContext.createGain();
+            reverbLimiter.gain.value = 0.5;
+            globalEffectsBus.connect(globalReverb);
+            globalReverb.connect(reverbLimiter);
+            reverbLimiter.connect(globalReverbGain);
+            
+            // Create global chorus (disabled for now)
+            globalChorus = audioContext.createDelay();
+            globalChorusGain = audioContext.createGain();
+            globalChorusLFO = audioContext.createOscillator();
+            const chorusLFOGain = audioContext.createGain();
+            
+            globalChorus.delayTime.value = 0.02;
+            globalChorusGain.gain.value = 0; // Start at 0
+            globalChorusLFO.frequency.value = 3;
+            chorusLFOGain.gain.value = 0.002;
+            
+            // Connect chorus
+            globalEffectsBus.connect(globalChorus);
+            globalChorus.connect(globalChorusGain);
+            globalChorusLFO.connect(chorusLFOGain);
+            chorusLFOGain.connect(globalChorus.delayTime);
+            globalChorusLFO.start();
+            
+            // Final mix with proper gain staging
+            const preMix = audioContext.createGain();
+            preMix.gain.value = 0.8; // Leave headroom
+            
+            const finalMix = audioContext.createGain();
+            finalMix.gain.value = 1;
+            
+            // Connect everything through compressor and limiter
+            globalEffectsBus.connect(preMix); // Dry signal
+            globalDelayGain.connect(preMix); // Delay
+            globalReverbGain.connect(preMix); // Reverb
+            globalChorusGain.connect(preMix); // Chorus
+            
+            // Safety chain
+            preMix.connect(compressor);
+            compressor.connect(limiter);
+            limiter.connect(finalMix);
+            finalMix.connect(audioContext.destination);
+            
+            console.log('✅ Global effects bus created');
+            
             // Initialize drum sampler
             drumSampler = new DrumSampler(audioContext);
             console.log('✅ Drum sampler initialized');
+            
+            // Load drum kit asynchronously (don't wait for it)
+            drumSampler.loadCurrentKit().catch(error => {
+                console.error('⚠️ Failed to load drum kit, but continuing:', error);
+            });
             
             // Update drum button immediately after creating sampler
             const drumButton = document.getElementById('instrument-drums');
@@ -449,8 +507,23 @@ async function enableAudio() {
 let activeAudioNodes = 0;
 const MAX_AUDIO_NODES = 15;
 
+// Track active notes for Rust backend
+const activeNoteIds = new Map();
+
 // Enhanced note playing with individual instrument settings
-function playNote(frequency, instrument = currentInstrument, velocity = 0.8) {
+async function playNote(frequency, instrument = currentInstrument, velocity = 0.8) {
+    // Use Rust audio if available
+    if (window.rustAudio && window.__TAURI__) {
+        try {
+            const noteId = await window.rustAudio.playNote(frequency, instrument, velocity);
+            activeNoteIds.set(`${frequency}_${instrument}`, noteId);
+            return;
+        } catch (error) {
+            console.error('Rust audio failed, falling back to Web Audio:', error);
+        }
+    }
+    
+    // Fallback to Web Audio (for development)
     if (!audioContext) {
         console.error('No audio context available');
         return;
@@ -489,108 +562,17 @@ function playNote(frequency, instrument = currentInstrument, velocity = 0.8) {
     const pannerNode = audioContext.createStereoPanner();
     pannerNode.pan.setValueAtTime(instrumentPans[instrument] || 0, audioContext.currentTime);
     
-    // Apply effects chain
+    // Simple connection - no per-note effects
     oscillator.connect(gainNode);
-    let currentNode = gainNode;
+    gainNode.connect(pannerNode);
     
-    // Delay effect
-    if (effects.delay > 0) {
-        const delayNode = audioContext.createDelay();
-        const delayGain = audioContext.createGain();
-        const feedbackGain = audioContext.createGain();
-        
-        delayNode.delayTime.setValueAtTime(0.2 + (0.3 * effects.delay), audioContext.currentTime);
-        delayGain.gain.setValueAtTime(0.4 * effects.delay, audioContext.currentTime);
-        feedbackGain.gain.setValueAtTime(0.3 * effects.delay, audioContext.currentTime);
-        
-        // Create delay feedback loop
-        currentNode.connect(delayNode);
-        delayNode.connect(feedbackGain);
-        feedbackGain.connect(delayNode); // Feedback
-        delayNode.connect(delayGain);
-        
-        // Mix dry and wet signals
-        const mixNode = audioContext.createGain();
-        currentNode.connect(mixNode); // Dry signal
-        delayGain.connect(mixNode); // Wet signal
-        currentNode = mixNode;
+    // Connect to global effects bus instead of destination
+    if (globalEffectsBus) {
+        pannerNode.connect(globalEffectsBus);
+    } else {
+        // Fallback if effects bus not ready
+        pannerNode.connect(audioContext.destination);
     }
-    
-    // Reverb effect (simplified convolution)
-    if (effects.reverb > 0) {
-        const convolver = audioContext.createConvolver();
-        const length = audioContext.sampleRate * 2; // 2 second reverb
-        const impulse = audioContext.createBuffer(2, length, audioContext.sampleRate);
-        
-        for (let channel = 0; channel < 2; channel++) {
-            const channelData = impulse.getChannelData(channel);
-            for (let i = 0; i < length; i++) {
-                channelData[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2) * effects.reverb;
-            }
-        }
-        
-        convolver.buffer = impulse;
-        
-        const reverbGain = audioContext.createGain();
-        reverbGain.gain.setValueAtTime(effects.reverb * 0.5, audioContext.currentTime);
-        
-        // Mix dry and wet
-        const mixNode = audioContext.createGain();
-        currentNode.connect(mixNode); // Dry
-        currentNode.connect(convolver);
-        convolver.connect(reverbGain);
-        reverbGain.connect(mixNode); // Wet
-        currentNode = mixNode;
-    }
-    
-    // Saturation effect  
-    if (effects.saturation > 0) {
-        const waveshaper = audioContext.createWaveShaper();
-        const amount = 1 + (effects.saturation * 10);
-        const samples = 44100;
-        const curve = new Float32Array(samples);
-        
-        for (let i = 0; i < samples; i++) {
-            const x = (i * 2) / samples - 1;
-            curve[i] = Math.sign(x) * Math.pow(Math.abs(Math.tanh(x * amount)), 0.7);
-        }
-        
-        waveshaper.curve = curve;
-        waveshaper.oversample = '4x';
-        currentNode.connect(waveshaper);
-        currentNode = waveshaper;
-    }
-    
-    // Chorus effect
-    if (effects.chorus > 0) {
-        const chorusDelay = audioContext.createDelay();
-        const lfo = audioContext.createOscillator();
-        const lfoGain = audioContext.createGain();
-        
-        chorusDelay.delayTime.value = 0.02;
-        lfo.frequency.value = 3 + (effects.chorus * 5);
-        lfoGain.gain.value = 0.002 * effects.chorus;
-        
-        lfo.connect(lfoGain);
-        lfoGain.connect(chorusDelay.delayTime);
-        
-        const chorusGain = audioContext.createGain();
-        chorusGain.gain.setValueAtTime(0.5 * effects.chorus, audioContext.currentTime);
-        
-        // Mix dry and wet
-        const mixNode = audioContext.createGain();
-        currentNode.connect(mixNode); // Dry
-        currentNode.connect(chorusDelay);
-        chorusDelay.connect(chorusGain);
-        chorusGain.connect(mixNode); // Wet
-        
-        lfo.start();
-        currentNode = mixNode;
-    }
-    
-    // Connect final node to panner then to destination
-    currentNode.connect(pannerNode);
-    pannerNode.connect(audioContext.destination);
     
     // Set oscillator properties
     oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
@@ -617,8 +599,54 @@ function playNote(frequency, instrument = currentInstrument, velocity = 0.8) {
     console.log(`🎵 Playing ${frequency}Hz on instrument ${instrument} (${soundConfig.name})`);
 }
 
+// Stop a note
+async function stopNote(frequency, instrument = currentInstrument) {
+    const noteKey = `${frequency}_${instrument}`;
+    
+    // Use Rust audio if available
+    if (window.rustAudio && window.__TAURI__ && activeNoteIds.has(noteKey)) {
+        try {
+            const noteId = activeNoteIds.get(noteKey);
+            await window.rustAudio.stopNote(noteId);
+            activeNoteIds.delete(noteKey);
+            return;
+        } catch (error) {
+            console.error('Failed to stop note with Rust audio:', error);
+        }
+    }
+    
+    // For Web Audio, notes stop automatically after duration
+}
+
 // Special drum sound synthesis
-function playDrumSound(soundConfig, velocity, instrument) {
+async function playDrumSound(soundConfig, velocity, instrument) {
+    // Use Rust audio if available for drums
+    if (window.rustAudio && window.__TAURI__) {
+        try {
+            // Use a frequency based on drum type for Rust backend
+            const drumFreqs = {
+                'Kick': 60,
+                'Snare': 200,
+                'Hat 1': 800,
+                'Hat 2': 1000,
+                'Tom 1': 150,
+                'Tom 2': 120,
+                'Tom 3': 100,
+                'Crash': 500,
+                'Ride': 300,
+                'Hat O': 1200,
+                'Clap': 400,
+                'Perc': 600
+            };
+            const frequency = drumFreqs[soundConfig.name] || soundConfig.freq || 200;
+            const noteId = await window.rustAudio.playNote(frequency, 4, velocity); // instrument 4 for drums
+            activeNoteIds.set(`drum_${soundConfig.name}`, noteId);
+            return;
+        } catch (error) {
+            console.error('Rust audio failed for drums, falling back:', error);
+        }
+    }
+    
     if (!audioContext) return;
     
     // Use drum sampler if available
@@ -672,7 +700,13 @@ function playDrumSound(soundConfig, velocity, instrument) {
         noiseSource.connect(filter);
         filter.connect(gainNode);
         gainNode.connect(pannerNode);
-        pannerNode.connect(audioContext.destination);
+        
+        // Connect to global effects bus instead of destination
+        if (globalEffectsBus) {
+            pannerNode.connect(globalEffectsBus);
+        } else {
+            pannerNode.connect(audioContext.destination);
+        }
         
         noiseSource.start(audioContext.currentTime);
         noiseSource.stop(audioContext.currentTime + duration);
@@ -695,7 +729,13 @@ function playDrumSound(soundConfig, velocity, instrument) {
         
         oscillator.connect(gainNode);
         gainNode.connect(pannerNode);
-        pannerNode.connect(audioContext.destination);
+        
+        // Connect to global effects bus instead of destination
+        if (globalEffectsBus) {
+            pannerNode.connect(globalEffectsBus);
+        } else {
+            pannerNode.connect(audioContext.destination);
+        }
         
         oscillator.start(audioContext.currentTime);
         oscillator.stop(audioContext.currentTime + duration);
@@ -1657,17 +1697,41 @@ function stopPlayback() {
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🔧 Initializing Enhanced Rosita...');
     
-    // Make sure mixer starts OFF
-    mixerMode = false;
-    
-    // Don't wait for user interaction - initialize audio immediately
-    const audioInitialized = await initAudio();
-    console.log('Audio initialized on page load:', audioInitialized);
-    
-    // Create UI elements
-    createPianoKeyboard();
-    createSequencerGrid();
-    setupComputerKeyboard();
+    try {
+        // Make sure mixer starts OFF
+        mixerMode = false;
+        
+        // Don't wait for user interaction - initialize audio immediately
+        const audioInitialized = await initAudio();
+        console.log('Audio initialized on page load:', audioInitialized);
+        
+        // Create UI elements
+        console.log('🎹 Creating piano keyboard...');
+        createPianoKeyboard();
+        console.log('✅ Piano keyboard created');
+        
+        console.log('🎵 Creating sequencer grid...');
+        createSequencerGrid();
+        console.log('✅ Sequencer grid created');
+        
+        console.log('⌨️ Setting up computer keyboard...');
+        setupComputerKeyboard();
+        console.log('✅ Computer keyboard setup complete');
+    } catch (error) {
+        console.error('❌ Error during initialization:', error);
+        console.error('Stack trace:', error.stack);
+        
+        // Try to create UI even if audio fails
+        try {
+            console.log('🔧 Attempting to create UI despite error...');
+            createPianoKeyboard();
+            createSequencerGrid();
+            setupComputerKeyboard();
+            console.log('✅ UI created successfully despite audio error');
+        } catch (uiError) {
+            console.error('❌ UI creation also failed:', uiError);
+        }
+    }
     
     // Initialize instrument displays
     // Set drum button to Kit 1 immediately (even before audio init)
@@ -1805,16 +1869,78 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
     
-    // Set up effects controls for current instrument
-    ['delay', 'reverb', 'saturation', 'chorus'].forEach(param => {
-        const slider = document.getElementById(param);
-        if (slider) {
-            slider.addEventListener('input', (e) => {
-                instrumentEffects[currentInstrument][param] = parseFloat(e.target.value);
-                console.log(`🎛️ ${param} for instrument ${currentInstrument}: ${e.target.value}`);
-            });
-        }
-    });
+    // Set up effects controls
+    const delaySlider = document.getElementById('delay');
+    if (delaySlider) {
+        delaySlider.addEventListener('input', async (e) => {
+            const value = parseFloat(e.target.value);
+            
+            // Use Rust audio effects if available
+            if (window.rustAudio && window.__TAURI__) {
+                await window.rustAudio.setEffectParam('delay', value);
+            } else if (globalDelayGain && audioContext) {
+                // Fallback to Web Audio
+                const now = audioContext.currentTime;
+                globalDelayGain.gain.cancelScheduledValues(now);
+                globalDelayGain.gain.setValueAtTime(globalDelayGain.gain.value, now);
+                globalDelayGain.gain.linearRampToValueAtTime(value * 0.08, now + 0.2);
+            }
+            console.log(`🎛️ Delay: ${value}`);
+        });
+    }
+    
+    const reverbSlider = document.getElementById('reverb');
+    if (reverbSlider) {
+        reverbSlider.addEventListener('input', async (e) => {
+            const value = parseFloat(e.target.value);
+            
+            // Use Rust audio effects if available
+            if (window.rustAudio && window.__TAURI__) {
+                await window.rustAudio.setEffectParam('reverb', value);
+            } else if (globalReverbGain && audioContext) {
+                // Fallback to Web Audio
+                const now = audioContext.currentTime;
+                globalReverbGain.gain.cancelScheduledValues(now);
+                globalReverbGain.gain.setValueAtTime(globalReverbGain.gain.value, now);
+                globalReverbGain.gain.linearRampToValueAtTime(value * 0.1, now + 0.2);
+            }
+            console.log(`🎛️ Reverb: ${value}`);
+        });
+    }
+    
+    // Saturation
+    const saturationSlider = document.getElementById('saturation');
+    if (saturationSlider) {
+        saturationSlider.value = 0;
+        saturationSlider.addEventListener('input', async (e) => {
+            const value = parseFloat(e.target.value);
+            
+            // Use Rust audio effects if available
+            if (window.rustAudio && window.__TAURI__) {
+                await window.rustAudio.setEffectParam('saturation', value);
+            }
+            console.log(`🎛️ Saturation: ${value}`);
+        });
+    }
+    
+    const chorusSlider = document.getElementById('chorus');
+    if (chorusSlider) {
+        chorusSlider.addEventListener('input', async (e) => {
+            const value = parseFloat(e.target.value);
+            
+            // Use Rust audio effects if available
+            if (window.rustAudio && window.__TAURI__) {
+                await window.rustAudio.setEffectParam('chorus', value);
+            } else if (globalChorusGain && audioContext) {
+                // Fallback to Web Audio
+                const now = audioContext.currentTime;
+                globalChorusGain.gain.cancelScheduledValues(now);
+                globalChorusGain.gain.setValueAtTime(globalChorusGain.gain.value, now);
+                globalChorusGain.gain.linearRampToValueAtTime(value * 0.05, now + 0.2);
+            }
+            console.log(`🎛️ Chorus: ${value}`);
+        });
+    }
     
     // Set up tempo control
     const tempoSlider = document.getElementById('tempo');

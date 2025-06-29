@@ -4,9 +4,183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rosita</title>
     <link rel="stylesheet" href="styles.css">
+    <script>
+        // Wait for Tauri to be ready
+        window.addEventListener('DOMContentLoaded', () => {
+            // Define window control functions using Tauri v1 API
+            window.closeApp = async function() {
+                console.log('Close button clicked');
+                try {
+                    // Try different methods to access Tauri API
+                    if (window.__TAURI_INVOKE__) {
+                        console.log('Using __TAURI_INVOKE__');
+                        await window.__TAURI_INVOKE__('tauri', {
+                            __tauriModule: 'Window',
+                            message: {
+                                cmd: 'manage',
+                                data: {
+                                    cmd: {
+                                        type: 'close'
+                                    }
+                                }
+                            }
+                        });
+                    } else if (window.__TAURI__?.tauri?.invoke) {
+                        console.log('Using __TAURI__.tauri.invoke');
+                        await window.__TAURI__.tauri.invoke('plugin:window|close');
+                    } else {
+                        console.error('No Tauri API found');
+                        alert('Cannot find Tauri API to close window');
+                    }
+                } catch (error) {
+                    console.error('Error closing:', error);
+                    alert('Error closing app: ' + error.message);
+                }
+            }
+
+            window.minimizeApp = async function() {
+                console.log('Minimize button clicked');
+                try {
+                    if (window.__TAURI_INVOKE__) {
+                        console.log('Using __TAURI_INVOKE__ for minimize');
+                        // Try the exact same pattern as close, which we know works
+                        const result = await window.__TAURI_INVOKE__('tauri', {
+                            __tauriModule: 'Window',
+                            message: {
+                                cmd: 'manage',
+                                data: {
+                                    cmd: {
+                                        type: 'minimize'
+                                    }
+                                }
+                            }
+                        });
+                        console.log('Minimize result:', result);
+                    } else {
+                        console.error('No __TAURI_INVOKE__ found');
+                        alert('Cannot find Tauri API to minimize window');
+                    }
+                } catch (error) {
+                    console.error('Error minimizing:', error);
+                    alert('Error minimizing app: ' + error.message);
+                }
+            }
+            
+            window.maximizeApp = async function() {
+                console.log('Maximize button clicked');
+                try {
+                    if (window.__TAURI_INVOKE__) {
+                        // Keep track of maximized state locally
+                        if (!window.isMaximized) {
+                            window.isMaximized = false;
+                        }
+                        
+                        const action = window.isMaximized ? 'unmaximize' : 'maximize';
+                        console.log('Attempting to:', action);
+                        
+                        await window.__TAURI_INVOKE__('tauri', {
+                            __tauriModule: 'Window',
+                            message: {
+                                cmd: 'manage',
+                                data: {
+                                    cmd: {
+                                        type: action
+                                    }
+                                }
+                            }
+                        });
+                        
+                        // Toggle the local state
+                        window.isMaximized = !window.isMaximized;
+                        document.body.classList.toggle('maximized', window.isMaximized);
+                        
+                        // Calculate scale for fullscreen
+                        if (window.isMaximized) {
+                            setTimeout(() => {
+                                const container = document.querySelector('.synth-container');
+                                if (container) {
+                                    const scaleY = window.innerHeight / 650;
+                                    const scale = scaleY * 1.5; // Make it 50% bigger than just filling height
+                                    console.log('Scaling to:', scale, 'Window height:', window.innerHeight);
+                                    container.style.transform = `scale(${scale})`;
+                                    container.classList.add('fullscreen-scale');
+                                }
+                            }, 100);
+                        } else {
+                            const container = document.querySelector('.synth-container');
+                            if (container) {
+                                container.style.transform = 'scale(1)';
+                                container.classList.remove('fullscreen-scale');
+                            }
+                        }
+                        
+                        console.log('Window is now maximized:', window.isMaximized);
+                    } else {
+                        console.error('No __TAURI_INVOKE__ found');
+                        alert('Cannot find Tauri API to maximize window');
+                    }
+                } catch (error) {
+                    console.error('Error with maximize/unmaximize:', error);
+                    // Don't show alert for undefined errors
+                    const errorMsg = error.message || String(error);
+                    if (errorMsg !== 'undefined' && !errorMsg.includes('undefined')) {
+                        alert('Error toggling maximize: ' + errorMsg);
+                    }
+                    // Still toggle the state even if there was an error
+                    window.isMaximized = !window.isMaximized;
+                    document.body.classList.toggle('maximized', window.isMaximized);
+                    
+                    // Apply scaling even in error case
+                    if (window.isMaximized) {
+                        setTimeout(() => {
+                            const container = document.querySelector('.synth-container');
+                            if (container) {
+                                const scaleY = window.innerHeight / 650;
+                                const scale = scaleY * 1.5;
+                                console.log('Error case scaling to:', scale);
+                                container.style.transform = `scale(${scale})`;
+                                container.classList.add('fullscreen-scale');
+                            }
+                        }, 100);
+                    } else {
+                        const container = document.querySelector('.synth-container');
+                        if (container) {
+                            container.style.transform = 'scale(1)';
+                            container.classList.remove('fullscreen-scale');
+                        }
+                    }
+                }
+            }
+        });
+
+        window.showHelp = function() {
+            const modal = document.getElementById('helpModal');
+            const helpButton = document.querySelector('.help-button');
+            if (modal) {
+                modal.classList.add('show');
+                if (helpButton) {
+                    helpButton.textContent = '×';
+                    helpButton.onclick = hideHelp;
+                }
+            }
+        }
+
+        window.hideHelp = function() {
+            const modal = document.getElementById('helpModal');
+            const helpButton = document.querySelector('.help-button');
+            if (modal) {
+                modal.classList.remove('show');
+                if (helpButton) {
+                    helpButton.textContent = '?';
+                    helpButton.onclick = showHelp;
+                }
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="synth-container">
+        <!-- Title bar removed - JamminCenter provides it -->
         
         <div class="control-panel">
             <div class="oscillator-section">
@@ -224,45 +398,12 @@
         if (window.__TAURI__) {
             console.log('✅ Tauri API is available!');
         } else {
-            console.log('❌ Tauri API not available');
+            console.error('❌ Tauri API not available');
         }
         
-        // Window control functions for iframe compatibility
-        window.closeApp = function() {
-            console.log('Close clicked in iframe');
-        }
-        
-        window.minimizeApp = function() {
-            console.log('Minimize clicked in iframe');
-        }
-        
-        window.maximizeApp = function() {
-            console.log('Maximize clicked in iframe');
-        }
+        // Functions already defined above
 
-        window.showHelp = function() {
-            const modal = document.getElementById('helpModal');
-            const helpButton = document.querySelector('.help-button');
-            if (modal) {
-                modal.classList.add('show');
-                if (helpButton) {
-                    helpButton.textContent = '×';
-                    helpButton.onclick = hideHelp;
-                }
-            }
-        }
-
-        window.hideHelp = function() {
-            const modal = document.getElementById('helpModal');
-            const helpButton = document.querySelector('.help-button');
-            if (modal) {
-                modal.classList.remove('show');
-                if (helpButton) {
-                    helpButton.textContent = '?';
-                    helpButton.onclick = showHelp;
-                }
-            }
-        }
+        // Help functions already defined above
 
         // Close help modal when clicking outside the content
         document.addEventListener('click', function(event) {
@@ -285,6 +426,50 @@
         });
     </script>
     
+    <script>
+        // Direct UI creation test
+        console.log('🚨 TESTING DIRECT UI CREATION');
+        window.addEventListener('load', () => {
+            console.log('🚨 Window loaded, creating UI...');
+            const grid = document.getElementById('sequencer-grid');
+            const keyboard = document.getElementById('keyboard');
+            
+            if (grid) {
+                console.log('🚨 Grid element found, adding cells...');
+                grid.style.display = 'grid';
+                grid.style.gridTemplateColumns = 'repeat(16, 1fr)';
+                grid.style.gridTemplateRows = 'repeat(8, 1fr)';
+                grid.style.gap = '2px';
+                grid.style.height = '200px';
+                grid.style.background = '#FFB6C1';
+                
+                for (let i = 0; i < 128; i++) {
+                    const cell = document.createElement('div');
+                    cell.style.background = 'white';
+                    cell.style.border = '1px solid #666';
+                    grid.appendChild(cell);
+                }
+                console.log('✅ Added', grid.children.length, 'cells');
+            }
+            
+            if (keyboard) {
+                console.log('🚨 Keyboard element found, adding keys...');
+                keyboard.style.display = 'flex';
+                keyboard.style.height = '160px';
+                
+                for (let i = 0; i < 25; i++) {
+                    const key = document.createElement('div');
+                    key.style.flex = '1';
+                    key.style.background = 'white';
+                    key.style.border = '2px solid black';
+                    key.style.height = '100%';
+                    keyboard.appendChild(key);
+                }
+                console.log('✅ Added', keyboard.children.length, 'keys');
+            }
+        });
+    </script>
+    <script src="rust-audio-bridge.js"></script>
     <script src="script-enhanced.js"></script>
 </body>
 </html>
