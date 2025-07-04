@@ -270,19 +270,19 @@
                     <div class="effects-controls">
                         <h3>Effects</h3>
                         <div class="control-group">
-                            <label for="delay">D:</label>
+                            <label for="delay">A:</label>
                             <input type="range" id="delay" min="0" max="1" step="0.01" value="0">
                         </div>
                         <div class="control-group">
-                            <label for="reverb">R:</label>
+                            <label for="reverb">B:</label>
                             <input type="range" id="reverb" min="0" max="1" step="0.01" value="0">
                         </div>
                         <div class="control-group">
-                            <label for="saturation">S:</label>
+                            <label for="saturation">C:</label>
                             <input type="range" id="saturation" min="0" max="2" step="0.01" value="0">
                         </div>
                         <div class="control-group">
-                            <label for="chorus">C:</label>
+                            <label for="chorus">D:</label>
                             <input type="range" id="chorus" min="0" max="1" step="0.01" value="0">
                         </div>
                     </div>
@@ -469,7 +469,38 @@
             }
         });
     </script>
-    <script src="rust-audio-bridge.js"></script>
-    <script src="script-enhanced.js"></script>
+    <script src="rust-audio-bridge.js?v=4"></script>
+    <script src="script-enhanced.js?v=4"></script>
+    
+    
+    <!-- Add debug logging for instrument switching -->
+    <script>
+        console.log('🎨 Adding debug logging for instrument switching...');
+        
+        // Override switchInstrument to add logging
+        const originalSwitchInstrument = window.switchInstrument;
+        if (originalSwitchInstrument) {
+            window.switchInstrument = function(instrumentNum) {
+                console.log(`🎨 SWITCHING TO INSTRUMENT ${instrumentNum}`);
+                console.log(`🎨 Previous instrument: ${window.currentInstrument}`);
+                
+                // Call original function
+                originalSwitchInstrument(instrumentNum);
+                
+                // Log grid state after switch
+                setTimeout(() => {
+                    const grid = document.getElementById('sequencer-grid');
+                    if (grid) {
+                        console.log(`🎨 Grid classes after switch: ${grid.className}`);
+                        const firstCell = grid.querySelector('.grid-cell');
+                        if (firstCell) {
+                            console.log(`🎨 First cell classes: ${firstCell.className}`);
+                            console.log(`🎨 First cell inline styles: ${firstCell.getAttribute('style')}`);
+                        }
+                    }
+                }, 100);
+            };
+        }
+    </script>
 </body>
 </html>

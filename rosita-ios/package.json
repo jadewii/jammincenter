@@ -1,0 +1,30 @@
+{
+  "name": "rosita-ios",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run copy-assets",
+    "copy-assets": "rm -rf www && mkdir -p www && cp -R ../public/apps/rosita/* www/",
+    "ios": "npm run build && cap sync ios && cap open ios",
+    "sync": "npm run build && cap sync ios",
+    "run-ios": "npm run sync && cap run ios"
+  },
+  "keywords": [
+    "music",
+    "synthesizer",
+    "ios",
+    "capacitor"
+  ],
+  "author": "JAde Wii",
+  "license": "ISC",
+  "description": "Rosita Synthesizer - iOS Version",
+  "dependencies": {
+    "@capacitor/app": "^7.0.1",
+    "@capacitor/cli": "^7.4.1",
+    "@capacitor/core": "^7.4.1",
+    "@capacitor/haptics": "^7.0.1",
+    "@capacitor/ios": "^7.4.1",
+    "@capacitor/splash-screen": "^7.0.1",
+    "@capacitor/status-bar": "^7.0.1"
+  }
+}

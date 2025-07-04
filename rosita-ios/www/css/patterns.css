@@ -1,0 +1,75 @@
+.pattern-memory {
+    margin: 5px 0;
+    width: 100%;
+}
+
+.pattern-memory-title {
+    font-size: 12px;
+    margin-bottom: 5px;
+    text-align: center;
+    color: #000000;
+}
+
+.pattern-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.pattern-button {
+    width: 28px;
+    height: 28px;
+    min-width: unset;
+    min-height: unset;
+    padding: 0;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pattern-button.saved {
+    background-color: #FFE0EC;
+    box-shadow: inset 0 0 5px rgba(0, 200, 0, 0.5);
+}
+
+.pattern-button.active {
+    background-color: #FF69B4;
+    color: white;
+}
+
+.pattern-button.duplicate-target {
+    background-color: #E6E6FA; 
+    border-color: #9370DB #D8BFD8 #D8BFD8 #9370DB;
+}
+
+.pattern-button.saved.duplicate-target {
+    background-color: #D8BFD8; 
+    box-shadow: inset 0 0 5px rgba(147, 112, 219, 0.5);
+}
+
+.duplicate-button, .mute-button {
+    font-size: 10px;
+    padding: 0 4px;
+    background-color: #FFE0EC;
+    color: black;
+    height: 28px;
+}
+
+.duplicate-button:active, .mute-button:active {
+    background-color: #FF69B4;
+    color: white;
+}
+
+.duplicate-button.active {
+    background-color: #FF69B4;
+    color: white;
+}
+
+.mute-button.active {
+    background-color: #808080;
+    color: white;
+    text-decoration: line-through;
+}
+

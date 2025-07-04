@@ -44,6 +44,7 @@ function App() {
     loadAppLibrary();
     initializeApp();
     setupEventListeners();
+    setupDevToolsShortcut();
   }, []);
 
   const loadAppLibrary = async () => {
@@ -126,6 +127,61 @@ function App() {
   const addDevLog = (message: string) => {
     const timestamp = new Date().toLocaleTimeString();
     setDevLogs(prev => [`[${timestamp}] ${message}`, ...prev.slice(0, 29)]);
+  };
+
+  const setupDevToolsShortcut = () => {
+    // Add DevTools shortcut listener
+    window.addEventListener("keydown", async (e) => {
+      // Cmd+Shift+D to open DevTools
+      if (e.metaKey && e.shiftKey && e.key.toLowerCase() === "d") {
+        e.preventDefault();
+        console.log('🔧 DevTools shortcut triggered (Cmd+Shift+D)');
+        
+        try {
+          // Use our custom command to open DevTools
+          console.log('📱 Invoking open_devtools command...');
+          await invoke('open_devtools');
+          addDevLog('🔧 DevTools opened via Cmd+Shift+D');
+          console.log('✅ DevTools opened successfully');
+        } catch (error) {
+          console.error('❌ Error opening DevTools:', error);
+          addDevLog(`⚠️ DevTools: ${error}`);
+          
+          // Fallback: Try the window API method
+          try {
+            if ((window as any).__TAURI__?.window) {
+              const { appWindow } = await import('@tauri-apps/api/window');
+              console.log('📱 Trying fallback: window API method');
+              if (typeof (appWindow as any).openDevtools === 'function') {
+                await (appWindow as any).openDevtools();
+                addDevLog('🔧 DevTools opened via window API');
+              }
+            }
+          } catch (fallbackError) {
+            console.error('❌ Fallback also failed:', fallbackError);
+          }
+        }
+      }
+      
+      // Also support Cmd+Opt+I as fallback
+      if (e.metaKey && e.altKey && e.key.toLowerCase() === "i") {
+        e.preventDefault();
+        console.log('🔧 DevTools shortcut triggered (Cmd+Opt+I)');
+        
+        try {
+          console.log('📱 Invoking open_devtools command...');
+          await invoke('open_devtools');
+          addDevLog('🔧 DevTools opened via Cmd+Opt+I');
+          console.log('✅ DevTools opened successfully');
+        } catch (error) {
+          console.error('❌ Error opening DevTools:', error);
+          addDevLog(`⚠️ DevTools: ${error}`);
+        }
+      }
+    });
+    
+    console.log('✅ DevTools shortcuts registered: Cmd+Shift+D and Cmd+Opt+I');
+    addDevLog('🔧 DevTools shortcuts ready: Cmd+Shift+D');
   };
 
   const markAppForUpdate = (appId: string) => {
@@ -396,7 +452,7 @@ function App() {
         }}>
           {/* Load app content via iframe for proper CSS/JS execution */}
           <iframe 
-            src={`/apps/${currentApp.id}/index.html`}
+            src={`/apps/${currentApp.id}/index.html?t=${Date.now()}`}
             className="border-0 bg-white"
             style={{
               width: '1000px',
@@ -411,6 +467,7 @@ function App() {
             allow="microphone; midi; autoplay"
             sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-popups"
           />
+          
         </div>
       ) : showStudio ? (
         /* Studio Mode */

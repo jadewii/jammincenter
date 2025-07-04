@@ -1,0 +1,18 @@
+@keyframes drum-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes pulse-change {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); background-color: #FFFF00; }
+    100% { transform: scale(1); }
+}
+
+/* Simplified animations for flat pixel style */
+@keyframes simpleFlash {
+    0%, 100% { background-color: inherit; }
+    50% { background-color: #FFFF00; }
+}
+

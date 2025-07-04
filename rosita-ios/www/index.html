@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Rosita</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-mobile.css">
+    <script type="module">
+        import { Capacitor } from '@capacitor/core';
+        import { StatusBar } from '@capacitor/status-bar';
+        import { SplashScreen } from '@capacitor/splash-screen';
+        import { Haptics, ImpactStyle } from '@capacitor/haptics';
+        
+        // Store platform info globally
+        window.isIOS = Capacitor.getPlatform() === 'ios';
+        window.isNative = Capacitor.isNativePlatform();
+        
+        // iOS-specific setup
+        if (window.isIOS) {
+            // Hide status bar for fullscreen experience
+            StatusBar.hide();
+            
+            // Prevent iOS bounce/overscroll
+            document.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+            }, { passive: false });
+            
+            // Add haptic feedback function
+            window.hapticFeedback = async (style = 'light') => {
+                try {
+                    const impactStyle = {
+                        'light': ImpactStyle.Light,
+                        'medium': ImpactStyle.Medium,
+                        'heavy': ImpactStyle.Heavy
+                    };
+                    await Haptics.impact({ style: impactStyle[style] || ImpactStyle.Light });
+                } catch (error) {
+                    console.log('Haptic feedback not available');
+                }
+            };
+        }
+        
+        // Hide splash screen when ready
+        window.addEventListener('load', async () => {
+            setTimeout(async () => {
+                await SplashScreen.hide();
+            }, 1000);
+        });
+        
+        // Mobile-specific logging
+        window.mobileLog = function(message, level = 'info') {
+            const timestamp = new Date().toISOString();
+            const logEntry = `[${timestamp}] [${level.toUpperCase()}] ${message}`;
+            
+            // Store logs in array for debugging
+            window.mobileLogs = window.mobileLogs || [];
+            window.mobileLogs.push(logEntry);
+            
+            // Also log to console
+            console.log(logEntry);
+            
+            // Show in debug panel if enabled
+            if (window.debugMode) {
+                const debugPanel = document.getElementById('debug-panel');
+                if (debugPanel) {
+                    debugPanel.innerHTML = window.mobileLogs.slice(-10).join('<br>');
+                }
+            }
+        };
+        
+        // Touch event optimization
+        window.addEventListener('DOMContentLoaded', () => {
+            // Convert mouse events to touch events
+            const touchElements = document.querySelectorAll('.key, .grid-cell, input[type="range"], button');
+            
+            touchElements.forEach(element => {
+                // Prevent default touch behaviors
+                element.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    // Trigger haptic on touch
+                    if (window.hapticFeedback) {
+                        window.hapticFeedback('light');
+                    }
+                    // Simulate mousedown
+                    const mouseEvent = new MouseEvent('mousedown', {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window
+                    });
+                    element.dispatchEvent(mouseEvent);
+                }, { passive: false });
+                
+                element.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    // Simulate mouseup
+                    const mouseEvent = new MouseEvent('mouseup', {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window
+                    });
+                    element.dispatchEvent(mouseEvent);
+                }, { passive: false });
+            });
+            
+            window.mobileLog('Touch events configured');
+        });
+    </script>
+</head>
+<body>
+    <div class="synth-container mobile-layout">
+        <!-- Remove title bar for mobile -->
+        
+        <div class="control-panel">
+            <div class="oscillator-section">
+                <div class="instrument-controls">
+                    <h3>Instrument</h3>
+                    <div class="instrument-buttons">
+                        <div class="instrument-container">
+                            <button id="instrument-synth" class="win95-button instrument-button active">1</button>
+                            <div class="octave-controls">
+                                <button class="win95-button octave-button" data-instrument="synth" data-direction="down">-</button>
+                                <button class="win95-button octave-button" data-instrument="synth" data-direction="up">+</button>
+                            </div>
+                        </div>
+                        <div class="instrument-container">
+                            <button id="instrument-bass" class="win95-button instrument-button">2</button>
+                            <div class="octave-controls">
+                                <button class="win95-button octave-button" data-instrument="bass" data-direction="down">-</button>
+                                <button class="win95-button octave-button" data-instrument="bass" data-direction="up">+</button>
+                            </div>
+                        </div>
+                        <div class="instrument-container">
+                            <button id="instrument-keys" class="win95-button instrument-button">3</button>
+                            <div class="octave-controls">
+                                <button class="win95-button octave-button" data-instrument="keys" data-direction="down">-</button>
+                                <button class="win95-button octave-button" data-instrument="keys" data-direction="up">+</button>
+                            </div>
+                        </div>
+                        <div class="instrument-container">
+                            <button id="instrument-drums" class="win95-button instrument-button">4</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Arpeggiator controls -->
+                <div class="arpeggiator-controls">
+                    <h3>Arpeggiator</h3>
+                    <div class="arp-buttons">
+                        <div class="arp-button-container">
+                            <button id="arp-synth" class="win95-button arp-button">1</button>
+                            <div class="led-container">
+                                <div class="led" data-instrument="synth" data-led="1"></div>
+                                <div class="led" data-instrument="synth" data-led="2"></div>
+                                <div class="led" data-instrument="synth" data-led="3"></div>
+                            </div>
+                        </div>
+                        <div class="arp-button-container">
+                            <button id="arp-bass" class="win95-button arp-button">2</button>
+                            <div class="led-container">
+                                <div class="led" data-instrument="bass" data-led="1"></div>
+                                <div class="led" data-instrument="bass" data-led="2"></div>
+                                <div class="led" data-instrument="bass" data-led="3"></div>
+                            </div>
+                        </div>
+                        <div class="arp-button-container">
+                            <button id="arp-keys" class="win95-button arp-button">3</button>
+                            <div class="led-container">
+                                <div class="led" data-instrument="keys" data-led="1"></div>
+                                <div class="led" data-instrument="keys" data-led="2"></div>
+                                <div class="led" data-instrument="keys" data-led="3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ADSR and Effects controls side by side -->
+                <div class="controls-row">
+                    <div class="adsr-controls">
+                        <h3>ADSR Envelope</h3>
+                        <div class="control-group">
+                            <label for="attack">A:</label>
+                            <input type="range" id="attack" min="0.01" max="2" step="0.01" value="0.1">
+                        </div>
+                        <div class="control-group">
+                            <label for="decay">D:</label>
+                            <input type="range" id="decay" min="0.01" max="2" step="0.01" value="0.2">
+                        </div>
+                        <div class="control-group">
+                            <label for="sustain">S:</label>
+                            <input type="range" id="sustain" min="0" max="1" step="0.01" value="0.5">
+                        </div>
+                        <div class="control-group">
+                            <label for="release">R:</label>
+                            <input type="range" id="release" min="0.01" max="5" step="0.01" value="0.5">
+                        </div>
+                    </div>
+                    
+                    <div class="effects-controls">
+                        <h3>Effects</h3>
+                        <div class="control-group">
+                            <label for="delay">A:</label>
+                            <input type="range" id="delay" min="0" max="1" step="0.01" value="0">
+                        </div>
+                        <div class="control-group">
+                            <label for="reverb">B:</label>
+                            <input type="range" id="reverb" min="0" max="1" step="0.01" value="0">
+                        </div>
+                        <div class="control-group">
+                            <label for="saturation">C:</label>
+                            <input type="range" id="saturation" min="0" max="2" step="0.01" value="0">
+                        </div>
+                        <div class="control-group">
+                            <label for="chorus">D:</label>
+                            <input type="range" id="chorus" min="0" max="1" step="0.01" value="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="random-buttons">
+                    <button id="random-adsr-button" class="win95-button">ADSR</button>
+                    <button id="random-scale-button" class="win95-button">Scale</button>
+                    <button id="random-octave-button" class="win95-button">Octave</button>
+                </div>
+            </div>
+
+            <div class="sequencer-section">
+                <h2></h2>
+                <div class="sequencer-controls">
+                    <div class="left-controls">
+                        <button id="play-button" class="win95-button">Play</button>
+                        <button id="stop-button" class="win95-button">Stop</button>
+                        <button id="random-button" class="win95-button">Random</button>
+                        <button id="clear-button" class="win95-button">Clear</button>
+                        <button id="clear-all-button" class="win95-button">Clear All</button>
+                        <button id="mixer-button" class="win95-button">Mixer</button>
+                    </div>
+                    <div class="bmp-control">
+                        <label for="tempo">BPM:</label>
+                        <input type="range" id="tempo" min="60" max="200" step="1" value="120">
+                    </div>
+                </div>
+                <div class="pattern-memory">
+                    <div class="pattern-buttons">
+                        <button class="win95-button pattern-button" data-pattern="1">1</button>
+                        <button class="win95-button pattern-button" data-pattern="2">2</button>
+                        <button class="win95-button pattern-button" data-pattern="3">3</button>
+                        <button class="win95-button pattern-button" data-pattern="4">4</button>
+                        <button class="win95-button pattern-button" data-pattern="5">5</button>
+                        <button class="win95-button pattern-button" data-pattern="6">6</button>
+                        <button class="win95-button pattern-button" data-pattern="7">7</button>
+                        <button class="win95-button pattern-button" data-pattern="8">8</button>
+                        <button id="duplicate-pattern-button" class="win95-button duplicate-button" title="Duplicate pattern to next slot">Dup</button>
+                    </div>
+                </div>
+                <div id="sequencer-grid" class="sequencer-grid touch-enabled"></div>
+                <div class="octave-controls sequencer-octave">
+                    <button class="win95-button octave-button" data-direction="down">-</button>
+                    <button class="win95-button octave-button" data-direction="up">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="keyboard-container touch-enabled" id="keyboard">
+            <!-- Keys will be generated by JS -->
+        </div>
+        
+        <!-- Mobile debug panel (hidden by default) -->
+        <div id="debug-panel" class="debug-panel" style="display: none;"></div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="help-modal">
+        <div class="help-content">
+            <div class="help-header">
+                🎵 Rosita Help & Instructions
+            </div>
+            <div id="helpText">
+                <div class="help-section">
+                    <h3>🎹 Touch Controls</h3>
+                    <p>• Tap keys to play notes</p>
+                    <p>• Tap and hold for sustained notes</p>
+                    <p>• Tap grid cells to program beats</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>🎛️ Instruments</h3>
+                    <p>Tap instrument buttons (1-4) to switch tracks</p>
+                    <p>Tap same instrument again to cycle through sounds</p>
+                    <p>Use +/- buttons to change octave for each instrument</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>🔊 Sound Design</h3>
+                    <p><strong>ADSR:</strong> Attack, Decay, Sustain, Release envelope</p>
+                    <p><strong>Effects:</strong> Delay, Reverb, Saturation, Chorus</p>
+                    <p>Settings are saved per instrument</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>🎵 Sequencer</h3>
+                    <p>Tap grid squares to program beats</p>
+                    <p>Each instrument has its own sequence</p>
+                    <p>Use Play/Stop to control playback</p>
+                    <p>Random adds steps for current instrument only</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>💾 Patterns</h3>
+                    <p>8 pattern slots (buttons 1-8)</p>
+                    <p>Each pattern stores all 4 instrument sequences</p>
+                    <p>Tap to switch between patterns</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script-enhanced.js?v=mobile"></script>
+    <script type="module">
+        // Additional mobile-specific initialization
+        window.addEventListener('load', () => {
+            window.mobileLog('Rosita iOS loaded successfully');
+            
+            // Debug mode toggle (triple tap top-right corner)
+            let tapCount = 0;
+            let tapTimer;
+            
+            document.addEventListener('touchstart', (e) => {
+                if (e.touches[0].clientX > window.innerWidth - 100 && 
+                    e.touches[0].clientY < 100) {
+                    tapCount++;
+                    
+                    clearTimeout(tapTimer);
+                    tapTimer = setTimeout(() => {
+                        tapCount = 0;
+                    }, 500);
+                    
+                    if (tapCount === 3) {
+                        window.debugMode = !window.debugMode;
+                        const debugPanel = document.getElementById('debug-panel');
+                        debugPanel.style.display = window.debugMode ? 'block' : 'none';
+                        window.mobileLog(`Debug mode: ${window.debugMode ? 'ON' : 'OFF'}`);
+                        tapCount = 0;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

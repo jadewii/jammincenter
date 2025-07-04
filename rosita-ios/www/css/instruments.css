@@ -1,0 +1,174 @@
+.instrument-controls {
+    margin-top: 15px;
+}
+
+.instrument-controls h3 {
+    font-size: 14px;
+    margin: 10px 0 5px 0;
+    border-bottom: 1px solid #808080;
+    padding-bottom: 3px;
+}
+
+.instrument-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.instrument-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.instrument-button {
+    flex: 1;
+    font-size: 12px;
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-weight: bold;
+    padding: 8px 6px;
+    width: 100%;
+    margin-bottom: 2px;
+    border: 2px solid #000000;
+    cursor: pointer;
+    color: #000000;
+}
+
+/* Default colors for instrument buttons */
+#instrument-synth {
+    background-color: #FFB6C1;
+}
+
+#instrument-synth.sine {
+    background-color: #FFB6C1; /* Medium pink - sine */
+}
+
+#instrument-synth.sawtooth {
+    background-color: #FF91A4; /* Darker pink - sawtooth */
+}
+
+#instrument-synth.triangle {
+    background-color: #FF69B4; /* Dark pink - triangle */
+}
+
+#instrument-bass {
+    background-color: #87CEEB;
+}
+
+#instrument-bass.sine {
+    background-color: #87CEEB; /* Medium blue - sine */
+}
+
+#instrument-bass.sawtooth {
+    background-color: #4FD0FF; /* Darker blue - sawtooth */
+}
+
+#instrument-bass.triangle {
+    background-color: #00BFFF; /* Dark blue - triangle */
+}
+
+#instrument-keys {
+    background-color: #DDA0DD;
+}
+
+#instrument-keys.sine {
+    background-color: #C8A2C8; /* Medium purple - sine */
+}
+
+#instrument-keys.sawtooth {
+    background-color: #BA55D3; /* Darker purple - sawtooth */
+}
+
+#instrument-keys.triangle {
+    background-color: #9370DB; /* Dark purple - triangle */
+}
+
+#instrument-drums {
+    background-color: #FFD700;
+}
+
+#instrument-drums.sine {
+    background-color: #FFB6C1; /* Medium pink - sine */
+}
+
+#instrument-drums.sawtooth {
+    background-color: #FF91A4; /* Darker pink - sawtooth */
+}
+
+#instrument-drums.triangle {
+    background-color: #FF69B4; /* Dark pink - triangle */
+}
+
+.instrument-button.waveform-change {
+    animation: pulse-change 0.3s ease-in-out;
+}
+
+.octave-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    margin-top: 2px;
+    width: 100%;
+}
+
+.octave-button {
+    font-size: 10px;
+    font-family: 'Courier New', 'Monaco', monospace;
+    font-weight: bold;
+    padding: 4px 6px;
+    min-width: 20px;
+    height: 18px;
+    border: 2px solid #000000;
+    background-color: #FFFF99;
+    color: #000000;
+    cursor: pointer;
+}
+
+.octave-display {
+    font-size: 10px;
+    padding: 0 3px;
+    min-width: 10px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #808080;
+}
+
+.instrument-button.active {
+    background-color: #FF69B4;
+    color: #000000;
+}
+
+#instrument-synth.active {
+    background-color: #FF69B4;
+    color: #000000;
+}
+
+#instrument-bass.active {
+    background-color: #4169E1;
+    color: #000000;
+}
+
+#instrument-keys.active {
+    background-color: #9370DB;
+    color: #000000;
+}
+
+#instrument-drums.active {
+    background-color: #FF8C00;
+    color: #000000;
+}
+
+.instrument-synth input[type="range"] {
+    background: linear-gradient(to right, #FFE0EC, #FF69B4);
+}
+
+.instrument-bass input[type="range"] {
+    background: linear-gradient(to right, #E0F3FF, #00BFFF);
+}
+
+.instrument-keys input[type="range"] {
+    background: linear-gradient(to right, #E6E6FA, #9370DB);
+}

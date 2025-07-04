@@ -1,0 +1,387 @@
+/* Mobile-specific styles for Rosita iOS */
+
+/* Remove scrollbars and prevent scrolling */
+* {
+    -webkit-overflow-scrolling: touch;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+html, body {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #000;
+}
+
+/* Mobile layout adjustments */
+.synth-container.mobile-layout {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    box-sizing: border-box;
+}
+
+/* Control panel for mobile */
+.control-panel {
+    display: flex;
+    flex-direction: row;
+    height: 65vh;
+    gap: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+/* Oscillator section (left side) */
+.oscillator-section {
+    flex: 0 0 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Sequencer section (right side) */
+.sequencer-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* Compact controls */
+.instrument-controls h3,
+.arpeggiator-controls h3,
+.adsr-controls h3,
+.effects-controls h3 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+}
+
+/* Smaller buttons for mobile */
+.win95-button {
+    padding: 6px 12px;
+    font-size: 14px;
+    touch-action: manipulation;
+}
+
+.instrument-button,
+.arp-button {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+}
+
+/* Touch-optimized sliders */
+input[type="range"] {
+    -webkit-appearance: none;
+    height: 30px;
+    background: transparent;
+    touch-action: manipulation;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 30px;
+    height: 30px;
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #fff #808080 #808080 #fff;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 8px;
+    background: #808080;
+    border: 1px solid #000;
+}
+
+/* Sequencer grid for mobile */
+.sequencer-grid.touch-enabled {
+    height: 200px;
+    touch-action: manipulation;
+}
+
+.grid-cell {
+    min-height: 20px;
+    touch-action: manipulation;
+}
+
+/* Piano keyboard for mobile */
+.keyboard-container.touch-enabled {
+    height: 25vh;
+    display: flex;
+    padding: 10px;
+    gap: 2px;
+    touch-action: manipulation;
+    position: relative;
+}
+
+.key {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    touch-action: manipulation;
+    border-radius: 0 0 8px 8px;
+}
+
+.key.black {
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    z-index: 2;
+    margin: 0;
+}
+
+/* Pattern buttons row */
+.pattern-memory {
+    margin: 5px 0;
+}
+
+.pattern-buttons {
+    display: flex;
+    gap: 5px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.pattern-button {
+    min-width: 35px;
+    padding: 5px;
+}
+
+/* Controls row for ADSR and Effects */
+.controls-row {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+}
+
+.adsr-controls,
+.effects-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.control-group label {
+    width: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.control-group input[type="range"] {
+    flex: 1;
+}
+
+/* Random buttons */
+.random-buttons {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.random-buttons button {
+    flex: 1;
+    padding: 5px;
+    font-size: 12px;
+}
+
+/* Sequencer controls */
+.sequencer-controls {
+    display: flex;
+    gap: 10px;
+    margin: 5px 0;
+    align-items: center;
+}
+
+.left-controls {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.left-controls button {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.bmp-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+}
+
+.bmp-control label {
+    font-size: 12px;
+}
+
+.bmp-control input {
+    width: 80px;
+}
+
+/* Octave controls */
+.octave-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.octave-button {
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* Debug panel */
+.debug-panel {
+    position: fixed;
+    top: 50px;
+    right: 10px;
+    width: 300px;
+    max-height: 200px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #0f0;
+    font-family: monospace;
+    font-size: 10px;
+    padding: 10px;
+    overflow-y: auto;
+    border: 1px solid #0f0;
+    z-index: 9999;
+}
+
+/* Help modal adjustments */
+.help-modal {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.help-content {
+    max-width: 90vw;
+    max-height: 90vh;
+    font-size: 14px;
+}
+
+/* Touch feedback */
+.key:active,
+.grid-cell:active,
+.win95-button:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+/* Landscape optimizations for iPhone */
+@media screen and (max-height: 500px) {
+    .control-panel {
+        height: 70vh;
+    }
+    
+    .keyboard-container.touch-enabled {
+        height: 20vh;
+    }
+    
+    .sequencer-grid.touch-enabled {
+        height: 150px;
+    }
+    
+    h3 {
+        font-size: 12px;
+        margin: 2px 0;
+    }
+    
+    .instrument-button,
+    .arp-button {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+}
+
+/* iPad optimizations */
+@media screen and (min-width: 768px) {
+    .control-panel {
+        padding: 20px;
+        gap: 20px;
+    }
+    
+    .sequencer-grid.touch-enabled {
+        height: 300px;
+    }
+    
+    .keyboard-container.touch-enabled {
+        height: 30vh;
+    }
+    
+    .instrument-button,
+    .arp-button {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+    }
+    
+    .win95-button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+    
+    h3 {
+        font-size: 18px;
+    }
+}
+
+/* Prevent text selection on double tap */
+* {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Active states for touch */
+.instrument-button.active {
+    background: #FFB6C1;
+    border-color: #FF1493;
+}
+
+.grid-cell.active {
+    background: #FFB6C1;
+}
+
+/* LED indicators */
+.led-container {
+    display: flex;
+    gap: 3px;
+    margin-top: 3px;
+    justify-content: center;
+}
+
+.led {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #333;
+}
+
+.led.active {
+    background: #0f0;
+    box-shadow: 0 0 5px #0f0;
+}
+
+.led.hold {
+    background: #ff0;
+    box-shadow: 0 0 5px #ff0;
+}

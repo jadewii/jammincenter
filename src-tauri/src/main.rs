@@ -26,6 +26,19 @@ struct AppState {
 }
 
 #[tauri::command]
+async fn open_devtools(window: tauri::Window) -> Result<(), String> {
+    #[cfg(debug_assertions)]
+    {
+        window.open_devtools();
+        Ok(())
+    }
+    #[cfg(not(debug_assertions))]
+    {
+        Err("DevTools only available in debug builds".to_string())
+    }
+}
+
+#[tauri::command]
 async fn launch_app_window(
     app_handle: tauri::AppHandle,
     app_id: String,
@@ -180,7 +193,8 @@ fn main() {
             play_note,
             stop_note,
             stop_all_notes,
-            set_effect_param
+            set_effect_param,
+            open_devtools
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

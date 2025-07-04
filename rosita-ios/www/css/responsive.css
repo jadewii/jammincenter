@@ -1,0 +1,124 @@
+/* Responsive scaling for window resize */
+html {
+    font-size: clamp(8px, 1.5vw, 16px);
+}
+
+.synth-container {
+    font-size: 1rem;
+    /* Remove problematic scaling transforms */
+}
+
+/* Scale all UI elements proportionally */
+.win95-button {
+    font-size: clamp(8px, 1vw, 14px);
+    padding: clamp(2px, 0.5vw, 8px) clamp(4px, 1vw, 12px);
+    min-width: clamp(20px, 3vw, 40px);
+    min-height: clamp(16px, 2.5vw, 24px);
+}
+
+.control-group label {
+    font-size: clamp(8px, 0.9vw, 12px);
+}
+
+.control-group input[type="range"] {
+    width: clamp(40px, 8vw, 100px);
+    height: clamp(12px, 1.5vw, 20px);
+}
+
+.value-display {
+    font-size: clamp(7px, 0.8vw, 11px);
+    min-width: clamp(20px, 3vw, 35px);
+}
+
+.window-title {
+    font-size: clamp(10px, 1.1vw, 14px);
+    padding: clamp(3px, 0.6vw, 8px);
+    min-height: clamp(18px, 2.5vw, 28px);
+}
+
+.win95-logo {
+    width: clamp(12px, 1.8vw, 20px);
+    height: clamp(12px, 1.8vw, 20px);
+}
+
+.control-button {
+    width: clamp(12px, 1.8vw, 20px) !important;
+    height: clamp(12px, 1.8vw, 20px) !important;
+    font-size: clamp(8px, 1vw, 12px) !important;
+}
+
+/* Sequencer grid scaling */
+.sequencer-grid {
+    /* Remove problematic transforms */
+}
+
+.step {
+    width: clamp(15px, 2.5vw, 25px);
+    height: clamp(15px, 2.5vw, 25px);
+    font-size: clamp(6px, 0.8vw, 10px);
+}
+
+/* Keyboard scaling */
+.keyboard-container {
+    /* Remove problematic transforms */
+}
+
+.key {
+    font-size: clamp(6px, 0.7vw, 10px);
+}
+
+.white-key {
+    width: clamp(20px, 3vw, 35px);
+    height: clamp(60px, 8vw, 80px);
+}
+
+.black-key {
+    width: clamp(12px, 2vw, 22px);
+    height: clamp(35px, 5vw, 50px);
+}
+
+/* Controls scaling */
+h3 {
+    font-size: clamp(10px, 1.2vw, 16px);
+    margin-bottom: clamp(5px, 0.8vw, 10px);
+}
+
+.instrument-buttons, .arp-buttons {
+    gap: clamp(3px, 0.6vw, 8px);
+}
+
+.led {
+    width: clamp(6px, 1vw, 10px);
+    height: clamp(6px, 1vw, 10px);
+}
+
+.pattern-buttons {
+    gap: clamp(2px, 0.4vw, 6px);
+}
+
+.oscillator-section, .sequencer-section {
+    padding: clamp(5px, 1vw, 15px);
+    border-width: clamp(1px, 0.2vw, 3px);
+}
+
+/* Media queries for extreme sizes */
+@media (max-width: 600px) {
+    .synth-container {
+        --scale-factor: 0.7;
+    }
+    .control-panel {
+        flex-direction: column !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .synth-container {
+        --scale-factor: 1.2;
+    }
+}
+
+@media (min-width: 1600px) {
+    .synth-container {
+        --scale-factor: 1.4;
+    }
+}
