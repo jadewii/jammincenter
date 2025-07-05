@@ -1,0 +1,444 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D41C4F2A2B000001 /* RositaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C4F292B000001 /* RositaApp.swift */; };
+		D41C4F2C2B000001 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C4F2B2B000001 /* ContentView.swift */; };
+		D41C4F2E2B000001 /* SynthEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C4F2D2B000001 /* SynthEngine.swift */; };
+		D41C4F302B000001 /* InstrumentSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C4F2F2B000001 /* InstrumentSelectorView.swift */; };
+		D41C4F322B000001 /* WaveformSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C4F312B000001 /* WaveformSelectorView.swift */; };
+		D41C4F342B000001 /* ADSRControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C4F332B000001 /* ADSRControlsView.swift */; };
+		D41C4F362B000001 /* EffectsControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C4F352B000001 /* EffectsControlsView.swift */; };
+		D41C4F382B000001 /* TransportControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C4F372B000001 /* TransportControlsView.swift */; };
+		D41C4F3A2B000001 /* SequencerGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C4F392B000001 /* SequencerGridView.swift */; };
+		D41C4F3C2B000001 /* PianoKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C4F3B2B000001 /* PianoKeyboardView.swift */; };
+		D41C4F3D2B000001 /* CompactViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C4F3E2B000001 /* CompactViews.swift */; };
+		D41C4F3F2B000001 /* RositaRetroViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C4F402B000001 /* RositaRetroViews.swift */; };
+		D41C4F5E2B000002 /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = D41C4F5D2B000002 /* AudioKit */; };
+		D41C4F602B000002 /* AudioKitEX in Frameworks */ = {isa = PBXBuildFile; productRef = D41C4F5F2B000002 /* AudioKitEX */; };
+		D41C4F622B000002 /* SoundpipeAudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = D41C4F612B000002 /* SoundpipeAudioKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D41C4F262B000001 /* Rosita.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rosita.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D41C4F292B000001 /* RositaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RositaApp.swift; sourceTree = "<group>"; };
+		D41C4F2B2B000001 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D41C4F2D2B000001 /* SynthEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynthEngine.swift; sourceTree = "<group>"; };
+		D41C4F2F2B000001 /* InstrumentSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentSelectorView.swift; sourceTree = "<group>"; };
+		D41C4F312B000001 /* WaveformSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformSelectorView.swift; sourceTree = "<group>"; };
+		D41C4F332B000001 /* ADSRControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADSRControlsView.swift; sourceTree = "<group>"; };
+		D41C4F352B000001 /* EffectsControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectsControlsView.swift; sourceTree = "<group>"; };
+		D41C4F372B000001 /* TransportControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportControlsView.swift; sourceTree = "<group>"; };
+		D41C4F392B000001 /* SequencerGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequencerGridView.swift; sourceTree = "<group>"; };
+		D41C4F3B2B000001 /* PianoKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoKeyboardView.swift; sourceTree = "<group>"; };
+		D41C4F3E2B000001 /* CompactViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactViews.swift; sourceTree = "<group>"; };
+		D41C4F402B000001 /* RositaRetroViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RositaRetroViews.swift; sourceTree = "<group>"; };
+		D41C4F452B000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D41C4F232B000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D41C4F5E2B000002 /* AudioKit in Frameworks */,
+				D41C4F602B000002 /* AudioKitEX in Frameworks */,
+				D41C4F622B000002 /* SoundpipeAudioKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D41C4F1D2B000001 = {
+			isa = PBXGroup;
+			children = (
+				D41C4F282B000001 /* Rosita */,
+				D41C4F272B000001 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D41C4F272B000001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D41C4F262B000001 /* Rosita.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D41C4F282B000001 /* Rosita */ = {
+			isa = PBXGroup;
+			children = (
+				D41C4F292B000001 /* RositaApp.swift */,
+				D41C4F2B2B000001 /* ContentView.swift */,
+				D41C4F2D2B000001 /* SynthEngine.swift */,
+				D41C4F632B000002 /* Views */,
+				D41C4F452B000001 /* Info.plist */,
+			);
+			path = Rosita;
+			sourceTree = "<group>";
+		};
+		D41C4F632B000002 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D41C4F2F2B000001 /* InstrumentSelectorView.swift */,
+				D41C4F312B000001 /* WaveformSelectorView.swift */,
+				D41C4F332B000001 /* ADSRControlsView.swift */,
+				D41C4F352B000001 /* EffectsControlsView.swift */,
+				D41C4F372B000001 /* TransportControlsView.swift */,
+				D41C4F392B000001 /* SequencerGridView.swift */,
+				D41C4F3B2B000001 /* PianoKeyboardView.swift */,
+				D41C4F3E2B000001 /* CompactViews.swift */,
+				D41C4F402B000001 /* RositaRetroViews.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D41C4F252B000001 /* Rosita */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D41C4F492B000001 /* Build configuration list for PBXNativeTarget "Rosita" */;
+			buildPhases = (
+				D41C4F222B000001 /* Sources */,
+				D41C4F232B000001 /* Frameworks */,
+				D41C4F242B000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Rosita;
+			packageProductDependencies = (
+				D41C4F5D2B000002 /* AudioKit */,
+				D41C4F5F2B000002 /* AudioKitEX */,
+				D41C4F612B000002 /* SoundpipeAudioKit */,
+			);
+			productName = Rosita;
+			productReference = D41C4F262B000001 /* Rosita.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41C4F1E2B000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					D41C4F252B000001 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = D41C4F212B000001 /* Build configuration list for PBXProject "Rosita" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D41C4F1D2B000001;
+			packageReferences = (
+				D41C4F5C2B000002 /* XCRemoteSwiftPackageReference "AudioKit" */,
+				D41C4F642B000003 /* XCRemoteSwiftPackageReference "AudioKitEX" */,
+				D41C4F652B000004 /* XCRemoteSwiftPackageReference "SoundpipeAudioKit" */,
+			);
+			productRefGroup = D41C4F272B000001 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D41C4F252B000001 /* Rosita */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D41C4F242B000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D41C4F222B000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D41C4F2C2B000001 /* ContentView.swift in Sources */,
+				D41C4F302B000001 /* InstrumentSelectorView.swift in Sources */,
+				D41C4F322B000001 /* WaveformSelectorView.swift in Sources */,
+				D41C4F342B000001 /* ADSRControlsView.swift in Sources */,
+				D41C4F362B000001 /* EffectsControlsView.swift in Sources */,
+				D41C4F382B000001 /* TransportControlsView.swift in Sources */,
+				D41C4F3A2B000001 /* SequencerGridView.swift in Sources */,
+				D41C4F3C2B000001 /* PianoKeyboardView.swift in Sources */,
+				D41C4F3D2B000001 /* CompactViews.swift in Sources */,
+				D41C4F3F2B000001 /* RositaRetroViews.swift in Sources */,
+				D41C4F2E2B000001 /* SynthEngine.swift in Sources */,
+				D41C4F2A2B000001 /* RositaApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D41C4F472B000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D41C4F482B000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D41C4F4A2B000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Rosita/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jadewii.rosita;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D41C4F4B2B000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Rosita/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jadewii.rosita;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D41C4F212B000001 /* Build configuration list for PBXProject "Rosita" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D41C4F472B000001 /* Debug */,
+				D41C4F482B000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D41C4F492B000001 /* Build configuration list for PBXNativeTarget "Rosita" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D41C4F4A2B000001 /* Debug */,
+				D41C4F4B2B000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D41C4F5C2B000002 /* XCRemoteSwiftPackageReference "AudioKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AudioKit/AudioKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
+			};
+		};
+		D41C4F642B000003 /* XCRemoteSwiftPackageReference "AudioKitEX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AudioKit/AudioKitEX.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
+			};
+		};
+		D41C4F652B000004 /* XCRemoteSwiftPackageReference "SoundpipeAudioKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AudioKit/SoundpipeAudioKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D41C4F5D2B000002 /* AudioKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D41C4F5C2B000002 /* XCRemoteSwiftPackageReference "AudioKit" */;
+			productName = AudioKit;
+		};
+		D41C4F5F2B000002 /* AudioKitEX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D41C4F642B000003 /* XCRemoteSwiftPackageReference "AudioKitEX" */;
+			productName = AudioKitEX;
+		};
+		D41C4F612B000002 /* SoundpipeAudioKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D41C4F652B000004 /* XCRemoteSwiftPackageReference "SoundpipeAudioKit" */;
+			productName = SoundpipeAudioKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = D41C4F1E2B000001 /* Project object */;
+}
